@@ -1,17 +1,19 @@
+
 server:
-  port: 9941 #端口号
+  port: 9940 #端口号
 
 spring:
   application:
-    name: @artifactId@ #微服务服务名称
+    name: service-demo1 #微服务服务名称
   cloud:
     nacos:  # nacos 配置
-      discovery: # nacos 作为服务发现  可以配置环境变量动态输入目前写死在pom文件中
-        server-addr: @profiles.active@:@profiles.active@ # nacos 地址
+      discovery: # nacos 作为服务发现  可以配置环境变量动态输入
+        server-addr: 42.194.199.234:8848 # nacos 地址
+        service: ${spring.application.name}
       config: # nacos 作为配置中心
         server-addr: ${spring.cloud.nacos.discovery.server-addr} # 读取本文服务发现的配置
         file-extension: yml #配置文件后缀
         shared-configs: # 读取配置文件 相当于读取哪个 配置文件
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
-    active: @profiles.active@ #当前模式
+    active: dev #当前模式
