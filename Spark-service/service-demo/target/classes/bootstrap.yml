@@ -1,0 +1,17 @@
+server:
+  port: 8801
+# spring 配置
+spring:
+  application:
+    name: service-demo
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 42.194.199.234:8848 # 配置服务地址
+      config:
+        server-addr: ${spring.cloud.nacos.discovery.server-addr} # 取上面配置的地址
+        file-extension: yml
+        shared-configs: # application-dev.yml 该配置最终效果
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+  profiles:
+    active: dev
