@@ -10,19 +10,17 @@ import java.util.List;
 
 /**
  * Feign接口类
- *
- * @author Chill
  */
 @FeignClient(
         // 调用哪个服务
-        value = ApplicationConstant.APPLICATION_SPARK_SERVICE_DEMO,
+        value = ApplicationConstant.APPLICATION_SPARK_SERVICE_DEMO2,
         // 失败回调
-        fallback = IDictClientFallback.class
+        fallback = DogFeignClientFallback.class
 )
 public interface DogFeignClient {
 
     // 服务路径
-    String API_PREFIX = "/dict";
+    String API_PREFIX = "/";
 
     /**
      * 拿到一条狗通过名字
@@ -39,6 +37,5 @@ public interface DogFeignClient {
      */
     @GetMapping(API_PREFIX + "/getDogList")
     CommonResult<List<Dog>> getList();
-
 
 }

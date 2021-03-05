@@ -6,7 +6,7 @@
     <groupId>com.lyc</groupId>
     <artifactId>Spark</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>${spark.version}</version>
     <properties>
 
         <java.version>1.8</java.version>
@@ -25,14 +25,18 @@
         <alibaba.cloud.version>2.2.5.RELEASE</alibaba.cloud.version>
         <alibaba.nacos.version>2.2.5.RELEASE</alibaba.nacos.version>
 
-
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
+        <!-- spark 项目版本号 -->
+        <spark.version>1.0.0</spark.version>
 
-        <!--  spark core       -->
+        <!--  spark core  核心公共版本号    -->
         <spark.core.tool.version>1.0.0</spark.core.tool.version>
         <spark.core.user.version>1.0.0</spark.core.user.version>
+        <spark.core.redis.version>1.0.0</spark.core.redis.version>
+
+
     </properties>
 
     <dependencyManagement>
@@ -98,9 +102,6 @@
                 <scope>import</scope>
             </dependency>
 
-
-
-
             <!-- spring plugin-->
             <dependency>
                 <groupId>org.springframework.plugin</groupId>
@@ -129,7 +130,6 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -149,9 +149,7 @@
         </resources>
     </build>
 
-
     <profiles>
-
         <profile>
             <id>dev</id>
             <properties>
@@ -175,7 +173,6 @@
                 <activeByDefault>false</activeByDefault>
             </activation>
         </profile>
-
     </profiles>
 
 </project>

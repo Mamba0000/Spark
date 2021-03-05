@@ -16,6 +16,30 @@
         <module>service-demo2</module>
     </modules>
 
+    <dependencies>
+
+        <!-- feign 模块 -->
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>service-demo2-feign</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>service-demo-feign</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- 自定义模块 -->
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+    </dependencies>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

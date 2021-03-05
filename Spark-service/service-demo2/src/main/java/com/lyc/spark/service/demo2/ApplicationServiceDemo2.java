@@ -1,17 +1,16 @@
-package com.lyc.spark.service.demo;
+package com.lyc.spark.service.demo2;
+
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients({"com.lyc.spark.service.*.*"})
 @EnableDiscoveryClient
 @SpringBootApplication
-public class ApplicationServiceDemo {
+public class ApplicationServiceDemo2 {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApplicationServiceDemo.class, args);
+        SpringApplication.run(ApplicationServiceDemo2.class, args);
     }
 }
 
