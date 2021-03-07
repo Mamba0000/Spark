@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.lyc</groupId>
             <artifactId>Spark-common</artifactId>
-            <scope>compile</scope>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,3 @@
+com/lyc/spark/service/demo2/feign/DogFeignClientFallback.class
+com/lyc/spark/service/demo2/feign/DogFeignClient.class
+com/lyc/spark/service/demo2/bean/Dog.class

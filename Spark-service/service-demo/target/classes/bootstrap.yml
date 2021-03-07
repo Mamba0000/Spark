@@ -34,5 +34,13 @@ spring:
   profiles:
     active: dev
 
+# spark core 扩展 --------
+spark:
+  core:
+    mybatis-plus:
+      enable: true
+    redis:
+      enable: true
+
 
 

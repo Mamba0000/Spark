@@ -1,9 +1,8 @@
 package com.lyc.spark.service.demo2.feign;
 
-import com.lyc.spark.common.api.CommonResult;
+import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.service.demo2.bean.Dog;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;

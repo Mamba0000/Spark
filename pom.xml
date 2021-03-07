@@ -6,12 +6,12 @@
     <groupId>com.lyc</groupId>
     <artifactId>Spark</artifactId>
     <packaging>pom</packaging>
-    <version>${spark.version}</version>
+    <version>1.0.0</version>
     <properties>
 
         <java.version>1.8</java.version>
         <maven.plugin.version>3.8.1</maven.plugin.version>
-        <swagger.version>2.10.5</swagger.version>
+        <swagger.version>2.6.1</swagger.version>
         <swagger.models.version>1.6.2</swagger.models.version>
         <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
         <knife4j.version>2.0.8</knife4j.version>
@@ -30,11 +30,12 @@
 
         <!-- spark 项目版本号 -->
         <spark.version>1.0.0</spark.version>
-
         <!--  spark core  核心公共版本号    -->
         <spark.core.tool.version>1.0.0</spark.core.tool.version>
         <spark.core.user.version>1.0.0</spark.core.user.version>
         <spark.core.redis.version>1.0.0</spark.core.redis.version>
+        <spark.core.common.version>1.0.0</spark.core.common.version>
+        <spark.core.mybatisplus.version>1.0.0</spark.core.mybatisplus.version>
 
 
     </properties>
@@ -42,6 +43,15 @@
     <dependencyManagement>
         <dependencies>
             <!-- 自定义 -->
+
+            <dependency>
+                <groupId>com.lyc</groupId>
+                <artifactId>Spark-core-common</artifactId>
+                <version>${spark.core.common.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <dependency>
                 <groupId>com.lyc</groupId>
                 <artifactId>Spark-core-tool</artifactId>
@@ -57,6 +67,15 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>com.lyc</groupId>
+                <artifactId>Spark-core-mybatisplus</artifactId>
+                <version>${spark.core.mybatisplus.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
 
             <!-- 微服务 spring boot -->
             <dependency>
@@ -130,6 +149,26 @@
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- swagger2 暂时放这里-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.6.1</version>
+<!--            <version>${swagger.version}</version>-->
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-common</artifactId>
+            <version>${spark.core.common.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>

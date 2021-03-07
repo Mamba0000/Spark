@@ -1,0 +1,14 @@
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/RolePermissionRelation.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/MenuMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/User.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/Permission.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/UserMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/RoleMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/RoleUserRelationMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/Menu.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/RoleMenuRelationMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/Role.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/PermissionMapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/UserRoleRelation.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/bean/RoleMenuRelation.java
+/Users/robin/Documents/github/Spark/Spark-service/service-uum/src/main/java/com/lyc/spark/service/uum/mapper/RolePermissionRelationMapper.java

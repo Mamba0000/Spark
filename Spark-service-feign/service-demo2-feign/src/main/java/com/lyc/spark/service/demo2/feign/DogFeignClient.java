@@ -1,12 +1,12 @@
 package com.lyc.spark.service.demo2.feign;
 
-import com.lyc.spark.common.api.CommonResult;
 import com.lyc.spark.common.constant.ApplicationConstant;
 import com.lyc.spark.service.demo2.bean.Dog;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
+import com.lyc.spark.core.common.api.*;
 
 /**
  * Feign接口类

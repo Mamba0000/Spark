@@ -1,0 +1,102 @@
+package com.lyc.spark.service.uum.service.impl;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.IService;
+
+import com.lyc.spark.core.common.api.CommonResult;
+import com.lyc.spark.service.uum.entity.Permission;
+import com.lyc.spark.service.uum.entity.Role;
+import com.lyc.spark.service.uum.entity.User;
+import com.lyc.spark.service.uum.vo.UpdateUserPasswordParam;
+import com.lyc.spark.service.uum.vo.UserParam;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * 管理员管理Service
+ */
+public interface UserService extends IService<User> {
+    /**
+     * 根据用户名获取管理员
+     */
+    User geUserByName(String username);
+
+    /**
+     * 注册功能
+     */
+    User register(UserParam userParam);
+
+    /**
+     * 登录功能
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 生成的JWT的token
+     */
+//    String login(String username, String password);
+
+    /**
+     * 刷新token的功能
+     *
+     * @param oldToken 旧的token
+     */
+//    String refreshToken(String oldToken);
+
+    /**
+     * 根据用户名或昵称分页查询用户
+     */
+    Page<User> list(String keyword, Integer pageSize, Integer pageNum);
+
+    /**
+     * 修改指定用户信息
+     */
+    boolean update(Long id, User admin);
+
+    /**
+     * 删除指定用户
+     */
+    boolean delete(Long id);
+
+    /**
+     * 修改用户角色关系
+     */
+    @Transactional
+    int updateRole(Long adminId, List<Long> roleIds);
+
+    /**
+     * 获取用户对于角色
+     */
+    List<Role> getRoleList(Long adminId);
+
+    /**
+     * 获取用户对于角色的名称唯一值
+     */
+    public List<String> getRoleNameList(Long useId);
+
+    /**
+     * 获取指定用户的可访问权限
+     */
+    List<Permission> getResourceList(Long adminId);
+
+    /**
+     * 获取指定用户的可访问权限 Value
+     */
+    List<String> getResourceVauleList(Long adminId);
+
+    /**
+     * 修改密码
+     */
+    int updatePassword(UpdateUserPasswordParam updatePasswordParam);
+
+//    IPage<User> selectMyUsers(int i, Page page);
+
+    // UserVo 参数可以自定义
+    IPage<User> selectMyUsers(Page<User> page, @Param("user") User user);
+
+
+    CommonResult<IPage<User>> selectMyUsers2(@Param("user") User user);
+
+}
