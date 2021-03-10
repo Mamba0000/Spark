@@ -1,3 +1,4 @@
+
 package com.lyc.spark.service.uum.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -11,11 +12,7 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 import java.util.Date;
 
-/**
- * <p>
- * 菜单表
- * </p>
- */
+
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("tb_menu")
@@ -55,3 +52,4 @@ public class Menu implements Serializable {
     private String url;
 
 }
+

@@ -40,3 +40,4 @@ spark:
       enable: true #开启 spark-core-mybatis-plus
     redis:
       enable: true #开启 spark-core-redis
+

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Spark.iml" filepath="$PROJECT_DIR$/.idea/Spark.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark-auth/Spark-auth.iml" filepath="$PROJECT_DIR$/Spark-auth/Spark-auth.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-common/Spark-common.iml" filepath="$PROJECT_DIR$/Spark-common/Spark-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-gateway/Spark-gateway.iml" filepath="$PROJECT_DIR$/Spark-gateway/Spark-gateway.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service/Spark-service.iml" filepath="$PROJECT_DIR$/Spark-service/Spark-service.iml" />
@@ -12,6 +13,7 @@
       <module fileurl="file://$PROJECT_DIR$/Spark-service/service-demo2/service-demo2.iml" filepath="$PROJECT_DIR$/Spark-service/service-demo2/service-demo2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-demo2-feign/service-demo2-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-demo2-feign/service-demo2-feign.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service/service-uum/service-uum.iml" filepath="$PROJECT_DIR$/Spark-service/service-uum/service-uum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-uum-feign/service-uum-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-uum-feign/service-uum-feign.iml" />
     </modules>
   </component>
 </project>

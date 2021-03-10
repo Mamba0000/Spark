@@ -2,6 +2,7 @@ package com.lyc.spark.service.uum.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lyc.spark.service.uum.entity.Permission;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * 权限表 Mapper 接口
  * </p>
  */
+@Mapper
 public interface PermissionMapper extends BaseMapper<Permission> {
 
     /**

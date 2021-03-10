@@ -12,7 +12,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class ApplicationUUM {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApplicationUUM.class, args);
+        try {
+            SpringApplication.run(ApplicationUUM.class, args);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

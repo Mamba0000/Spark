@@ -23,16 +23,10 @@ import java.util.List;
 @Api(tags = "UserController", description = "用户相关")
 @RequestMapping("/user")
 public class UserController {
-    @Value("${jwt.tokenHeader}")
-    private String tokenHeader;
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
-
     @Autowired
     private UserService userService;
     @Autowired
     private RoleService roleService;
-
 
     @ApiOperation(value = "用户注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)

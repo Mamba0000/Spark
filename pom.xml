@@ -25,6 +25,9 @@
         <alibaba.cloud.version>2.2.5.RELEASE</alibaba.cloud.version>
         <alibaba.nacos.version>2.2.5.RELEASE</alibaba.nacos.version>
 
+        <hutool.version>5.4.4</hutool.version>
+
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
@@ -121,6 +124,13 @@
                 <scope>import</scope>
             </dependency>
 
+            <!--Hutool Java工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
             <!-- spring plugin-->
             <dependency>
                 <groupId>org.springframework.plugin</groupId>
@@ -140,6 +150,7 @@
         <module>Spark-service-feign</module>
         <module>Spark-gateway</module>
         <module>Spark-common</module>
+        <module>Spark-auth</module>
     </modules>
 
     <dependencies>
@@ -162,6 +173,11 @@
             <version>${swagger.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.lyc</groupId>

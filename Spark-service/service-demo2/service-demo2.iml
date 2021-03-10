@@ -140,6 +140,7 @@
     <orderEntry type="library" name="Maven: org.springframework.plugin:spring-plugin-metadata:2.0.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.mapstruct:mapstruct:1.0.0.Final" level="project" />
     <orderEntry type="library" name="Maven: io.springfox:springfox-swagger-ui:2.6.1" level="project" />
+    <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.4.4" level="project" />
     <orderEntry type="library" name="Maven: com.lyc:Spark-core-common:1.0.0" level="project" />
   </component>
 </module>

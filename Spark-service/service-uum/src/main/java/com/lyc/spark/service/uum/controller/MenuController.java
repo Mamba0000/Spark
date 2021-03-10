@@ -1,7 +1,6 @@
 package com.lyc.spark.service.uum.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.mybatisplus.page.CommonPage;
 import com.lyc.spark.service.uum.vo.MenuNode;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**

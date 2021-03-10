@@ -1,0 +1,18 @@
+{
+  "groups": [
+    {
+      "name": "spark.project.whiteurl",
+      "type": "com.lyc.spark.gateway.config.WhiteURLConfig",
+      "sourceType": "com.lyc.spark.gateway.config.WhiteURLConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "spark.project.whiteurl.white-u-r-l",
+      "type": "java.util.List<java.lang.String>",
+      "description": "无需令牌的可以访问的URL",
+      "sourceType": "com.lyc.spark.gateway.config.WhiteURLConfig"
+    }
+  ],
+  "hints": []
+}

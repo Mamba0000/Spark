@@ -17,11 +17,38 @@
     </properties>
 
     <dependencies>
+
+        <!-- spring cloud  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
+
+        <!--nacos 服务发现-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${alibaba.nacos.version}</version>
+        </dependency>
+
+        <!--nacos 配置中心-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${alibaba.nacos.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>com.lyc</groupId>
             <artifactId>Spark-core-mybatisplus</artifactId>
             <version>1.0.0</version>
         </dependency>
+
     </dependencies>
 
 </project>

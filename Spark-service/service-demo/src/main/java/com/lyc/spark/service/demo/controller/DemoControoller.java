@@ -19,6 +19,12 @@ public class DemoControoller {
     @Resource
     DogFeignClient dogFeignClient;
 
+
+    @RequestMapping("/test0")
+    public String test0() {
+        return "test robin hood...";
+    }
+
     @RequestMapping("/test")
     public String test() {
         CommonResult<Dog> dog = dogFeignClient.getDogByName("mini dog");

@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Spark-common" />
         <module name="service-demo-feign" />
+        <module name="service-uum-feign" />
         <module name="service-demo" />
         <module name="service-demo2-feign" />
         <module name="service-uum" />
         <module name="Spark-gateway" />
         <module name="service-demo2" />
+        <module name="Spark-auth" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -24,7 +26,9 @@
       <module name="service-demo2-feign" target="8" />
       <module name="service-order" target="8" />
       <module name="service-uum" target="8" />
+      <module name="service-uum-feign" target="8" />
       <module name="Spark" target="8" />
+      <module name="Spark-auth" target="8" />
       <module name="Spark-common" target="8" />
       <module name="Spark-gateway" target="8" />
       <module name="Spark-service" target="8" />

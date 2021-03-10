@@ -14,6 +14,7 @@
     <modules>
         <module>service-demo2-feign</module>
         <module>service-demo-feign</module>
+        <module>service-uum-feign</module>
     </modules>
 
     <properties>
