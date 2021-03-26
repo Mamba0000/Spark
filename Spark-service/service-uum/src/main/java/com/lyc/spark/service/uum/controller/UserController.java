@@ -1,208 +1,166 @@
+
 package com.lyc.spark.service.uum.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lyc.spark.core.auth.util.BladeUser;
 import com.lyc.spark.core.common.api.CommonResult;
-import com.lyc.spark.core.mybatisplus.page.CommonPage;
-import com.lyc.spark.service.uum.entity.Role;
+import com.lyc.spark.core.constant.BladeConstant;
+import com.lyc.spark.core.mybatisplus.support.Condition;
+import com.lyc.spark.core.mybatisplus.support.Query;
+import com.lyc.spark.core.tool.Func;
 import com.lyc.spark.service.uum.entity.User;
-import com.lyc.spark.service.uum.service.impl.RoleService;
-import com.lyc.spark.service.uum.service.impl.UserService;
-import com.lyc.spark.service.uum.vo.UpdateUserPasswordParam;
-import com.lyc.spark.service.uum.vo.UserParam;
-import io.swagger.annotations.Api;
+import com.lyc.spark.service.uum.service.IUserService;
+import com.lyc.spark.service.uum.vo.UserVO;
+import com.lyc.spark.service.uum.wrapper.UserWrapper;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
+import io.swagger.annotations.ApiParam;
+import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.apache.commons.codec.Charsets;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import springfox.documentation.annotations.ApiIgnore;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-@Controller
-@Api(tags = "UserController", description = "用户相关")
-@RequestMapping("/user")
+/**
+ * 控制器
+ *
+ * @author Chill
+ */
+@RestController
+@RequestMapping
+@AllArgsConstructor
 public class UserController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private RoleService roleService;
 
-    @ApiOperation(value = "用户注册")
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult<User> register(@Validated @RequestBody UserParam userParam) {
-        User user = userService.register(userParam);
-        if (user == null) {
-            return CommonResult.fail();
-        }
-        return CommonResult.success(user);
-    }
+	private IUserService userService;
 
-//    @ApiOperation(value = "登录以后返回token")
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    @ResponseBody
-//    public CommonResult login(@Validated @RequestBody UserLoginParam userLoginParam) {
-//        String token = userService.login(userLoginParam.getUsername(), userLoginParam.getPassword());
-//        if (token == null) {
-//            return CommonResult.validateFail("用户名或密码错误");
-//        }
-//        Map<String, String> tokenMap = new HashMap<>();
-//        tokenMap.put("token", token);
-//        tokenMap.put("tokenHead", tokenHead);
-//        return CommonResult.success(tokenMap);
-//    }
+	/**
+	 * 查询单条
+	 */
+	@ApiOperation(value = "查看详情", notes = "传入id")
+	@GetMapping("/detail")
+	public CommonResult<UserVO> detail(User user) {
+		User detail = userService.getOne(Condition.getQueryWrapper(user));
+		System.out.println(userService.getPermissions(detail));
+		System.out.println(userService.getRoles(user));
+		return CommonResult.data(UserWrapper.build().entityVO(detail));
+	}
+
+	/**
+	 * 查询单条
+	 */
+	@ApiOperation(value = "查看详情", notes = "传入id")
+	@GetMapping("/info")
+	public CommonResult<UserVO> info(BladeUser user) {
+		User detail = userService.getById(user.getUserId());
+		return CommonResult.data(UserWrapper.build().entityVO(detail));
+	}
+
+	/**
+	 * 用户列表
+	 */
+	@GetMapping("/list")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "account", value = "账号名", paramType = "query", dataType = "string"),
+		@ApiImplicitParam(name = "realName", value = "姓名", paramType = "query", dataType = "string")
+	})
+	@ApiOperation(value = "列表", notes = "传入account和realName")
+	public CommonResult<IPage<UserVO>> list(@ApiIgnore @RequestParam Map<String, Object> user, Query query, BladeUser bladeUser) {
+		QueryWrapper<User> queryWrapper = Condition.getQueryWrapper(user, User.class);
+		IPage<User> pages = userService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(User::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		return CommonResult.data(UserWrapper.build().pageVO(pages));
+	}
+
+	/**
+	 * 新增或修改
+	 */
+	@PostMapping("/submit")
+	@ApiOperation(value = "新增或修改", notes = "传入User")
+	public CommonResult submit(@Valid @RequestBody User user) {
+		return CommonResult.status(userService.submit(user));
+	}
+
+	/**
+	 * 修改
+	 */
+	@PostMapping("/update")
+	@ApiOperation(value = "修改", notes = "传入User")
+	public CommonResult update(@Valid @RequestBody User user) {
+		return CommonResult.status(userService.updateById(user));
+	}
+
+	/**
+	 * 删除
+	 */
+	@PostMapping("/remove")
+	@ApiOperation(value = "删除", notes = "传入地基和")
+	public CommonResult remove(@RequestParam String ids) {
+		return CommonResult.status(userService.deleteLogic(Func.toLongList(ids)));
+	}
 
 
+	/**
+	 * 设置菜单权限
+	 *
+	 * @param userIds
+	 * @param roleIds
+	 * @return
+	 */
+	@PostMapping("/grant")
+	@ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
+	public CommonResult grant(@ApiParam(value = "userId集合", required = true) @RequestParam String userIds,
+				   @ApiParam(value = "roleId集合", required = true) @RequestParam String roleIds) {
+		boolean temp = userService.grant(userIds, roleIds);
+		return CommonResult.status(temp);
+	}
 
+	@PostMapping("/reset-password")
+	@ApiOperation(value = "初始化密码", notes = "传入userId集合")
+	public CommonResult resetPassword(@ApiParam(value = "userId集合", required = true) @RequestParam String userIds) {
+		boolean temp = userService.resetPassword(userIds);
+		return CommonResult.status(temp);
+	}
 
-    @ApiOperation(value = "selectTest")
-    @RequestMapping(value = "/selectTest", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult selectTest() {
-        Page page = new Page();
-        page.setSize(2);
-        page.setCurrent(1);
+	/**
+	 * 修改密码
+	 *
+	 * @param oldPassword
+	 * @param newPassword
+	 * @param newPassword1
+	 * @return
+	 */
+	@PostMapping("/update-password")
+	@ApiOperation(value = "修改密码", notes = "传入密码")
+	public CommonResult updatePassword(BladeUser user, @ApiParam(value = "旧密码", required = true) @RequestParam String oldPassword,
+									   @ApiParam(value = "新密码", required = true) @RequestParam String newPassword,
+									   @ApiParam(value = "新密码", required = true) @RequestParam String newPassword1) {
+		boolean temp = userService.updatePassword(user.getUserId(), oldPassword, newPassword, newPassword1);
+		return CommonResult.status(temp);
+	}
 
-        User user = new User();
-        user.setId(100L);
-        return CommonResult.success(userService.selectMyUsers(page, user));
-    }
-
-//    @ApiOperation(value = "刷新token")
-//    @RequestMapping(value = "/refreshToken", method = RequestMethod.GET)
-//    @ResponseBody
-//    public CommonResult refreshToken(HttpServletRequest request) {
-//        String token = request.getHeader(tokenHeader);
-//        String refreshToken = userService.refreshToken(token);
-//        if (refreshToken == null) {
-//            return CommonResult.failed("token已经过期！");
-//        }
-//        Map<String, String> tokenMap = new HashMap<>();
-//        tokenMap.put("token", refreshToken);
-//        tokenMap.put("tokenHead", tokenHead);
-//        return CommonResult.success(tokenMap);
-//    }
-
-//    @ApiOperation(value = "获取当前登录用户信息")
-//    @RequestMapping(value = "/info", method = RequestMethod.GET)
-//    @ResponseBody
-//    public CommonResult getAdminInfo(@RequestParam(value = "token", required = false) String token) {
-//
-//        String username = JWTUtil.getUsername(token);
-//
-//        User user = userService.geUserByName(username);
-//        Map<String, Object> data = new HashMap<>();
-//        data.put("username", user.getUsername());
-//        data.put("menus", roleService.getMenuList(user.getId()));
-//        data.put("icon", user.getIcon());
-//        List<Role> roleList = userService.getRoleList(user.getId());
-//        if (CollUtil.isNotEmpty(roleList)) {
-//            List<String> roles = roleList.stream().map(Role::getName).collect(Collectors.toList());
-//            data.put("roles", roles);
-//        }
-//        return CommonResult.success(data);
-//    }
-
-    @ApiOperation(value = "登出功能")
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult logout() {
-        return CommonResult.success(null);
-    }
-
-    @ApiOperation("根据用户名或姓名分页获取用户列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-//    @RequiresPermissions("//")
-    public CommonResult<CommonPage<User>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<User> adminList = userService.list(keyword, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(adminList));
-    }
-
-    @ApiOperation("获取指定用户信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<User> getItem(@PathVariable Long id) {
-        User admin = userService.getById(id);
-        return CommonResult.success(admin);
-    }
-
-    @ApiOperation("修改指定用户信息")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult update(@PathVariable Long id, @RequestBody User admin) {
-        boolean success = userService.update(id, admin);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
-
-    @ApiOperation("修改指定用户密码")
-    @RequestMapping(value = "/updatePassword", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult updatePassword(@Validated @RequestBody UpdateUserPasswordParam updatePasswordParam) {
-        int status = userService.updatePassword(updatePasswordParam);
-        if (status > 0) {
-            return CommonResult.success(status);
-        } else if (status == -1) {
-            return CommonResult.fail("提交参数不合法");
-        } else if (status == -2) {
-            return CommonResult.fail("找不到该用户");
-        } else if (status == -3) {
-            return CommonResult.fail("旧密码错误");
-        } else {
-            return CommonResult.fail();
-        }
-    }
-
-    @ApiOperation("删除指定用户信息")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @ResponseBody
-//    @RequiresPermissions("user:delete")
-    public CommonResult delete(@PathVariable Long id) {
-        boolean success = userService.delete(id);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
-
-    @ApiOperation("修改帐号状态")
-    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
-        User user = new User();
-        user.setStatus(status);
-        boolean success = userService.update(id, user);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
-
-    @ApiOperation("给用户分配角色")
-    @RequestMapping(value = "/role/update", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult updateRole(@RequestParam("adminId") Long adminId,
-                                   @RequestParam("roleIds") List<Long> roleIds) {
-        int count = userService.updateRole(adminId, roleIds);
-        if (count >= 0) {
-            return CommonResult.success(count);
-        }
-        return CommonResult.fail();
-    }
-
-    @ApiOperation("获取指定用户的角色")
-    @RequestMapping(value = "/role/{adminId}", method = RequestMethod.GET)
-    @ResponseBody
-//    @RequiresPermissions("user:select")
-    public CommonResult<List<Role>> getRoleList(@PathVariable Long adminId) {
-        List<Role> roleList = userService.getRoleList(adminId);
-        return CommonResult.success(roleList);
-    }
+	/**
+	 * 用户列表
+	 *
+	 * @param user
+	 * @return
+	 */
+	@GetMapping("/user-list")
+	@ApiOperation(value = "用户列表", notes = "传入user")
+	public CommonResult<List<User>> userList(User user) {
+		List<User> list = userService.list(Condition.getQueryWrapper(user));
+		return CommonResult.data(list);
+	}
 
 }

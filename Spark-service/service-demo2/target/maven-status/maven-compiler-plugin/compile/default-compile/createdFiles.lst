@@ -1,0 +1,3 @@
+com/lyc/spark/service/demo2/controller/Demo2Controoller.class
+com/lyc/spark/service/demo2/feign/DogFeignClientImpl.class
+com/lyc/spark/service/demo2/ApplicationServiceDemo2.class

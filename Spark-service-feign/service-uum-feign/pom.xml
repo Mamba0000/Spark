@@ -16,4 +16,21 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
+    <dependencies>
+
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-mybatisplus</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+    </dependencies>
+
 </project>

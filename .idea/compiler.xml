@@ -13,6 +13,8 @@
         <module name="service-demo" />
         <module name="service-demo2-feign" />
         <module name="service-uum" />
+        <module name="service-system-feign" />
+        <module name="service-system" />
         <module name="Spark-gateway" />
         <module name="service-demo2" />
         <module name="Spark-auth" />
@@ -25,6 +27,8 @@
       <module name="service-demo2" target="8" />
       <module name="service-demo2-feign" target="8" />
       <module name="service-order" target="8" />
+      <module name="service-system" target="8" />
+      <module name="service-system-feign" target="8" />
       <module name="service-uum" target="8" />
       <module name="service-uum-feign" target="8" />
       <module name="Spark" target="8" />

@@ -12,6 +12,8 @@
       <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-demo-feign/service-demo-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-demo-feign/service-demo-feign.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service/service-demo2/service-demo2.iml" filepath="$PROJECT_DIR$/Spark-service/service-demo2/service-demo2.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-demo2-feign/service-demo2-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-demo2-feign/service-demo2-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark-service/service-system/service-system.iml" filepath="$PROJECT_DIR$/Spark-service/service-system/service-system.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-system-feign/service-system-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-system-feign/service-system-feign.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service/service-uum/service-uum.iml" filepath="$PROJECT_DIR$/Spark-service/service-uum/service-uum.iml" />
       <module fileurl="file://$PROJECT_DIR$/Spark-service-feign/service-uum-feign/service-uum-feign.iml" filepath="$PROJECT_DIR$/Spark-service-feign/service-uum-feign/service-uum-feign.iml" />
     </modules>

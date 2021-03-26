@@ -1,6 +1,6 @@
 package com.lyc.spark.service.demo2.feign;
 
-import com.lyc.spark.service.demo2.bean.Dog;
+import com.lyc.spark.service.demo2.entity.Dog;
 import java.util.List;
 import com.lyc.spark.core.common.api.*;
 

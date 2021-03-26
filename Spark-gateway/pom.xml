@@ -19,16 +19,9 @@
 
     <dependencies>
 
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
         <!--nacos 服务发现-->
@@ -49,6 +42,19 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>com.lyc</groupId>-->
+<!--            <artifactId>Spark-core-swagger</artifactId>-->
+<!--            <version>1.0.0</version>-->
+<!--        </dependency>-->
+
+<!--        <dependency>-->
+<!--            <groupId>io.swagger</groupId>-->
+<!--            <artifactId>swagger-models</artifactId>-->
+<!--            <version>1.6.2</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 </project>

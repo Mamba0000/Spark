@@ -1,18 +1,4 @@
-/**
- * Copyright (c) 2018-2028, Chill Zhuang 庄骞 (smallchill@163.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.lyc.spark.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
@@ -42,7 +28,6 @@ import java.util.List;
 /**
  * 鉴权认证
  *
- * @author Chill
  */
 @Slf4j
 @Component
@@ -57,15 +42,18 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		String path = exchange.getRequest().getURI().getPath();
+
+		return chain.filter(exchange);
+
 		//  如果是白名单通过
-		if (isWhiteURL(path)) {
-			return chain.filter(exchange);
-		}
-		ServerHttpResponse resp = exchange.getResponse();
-		String auth_token = exchange.getRequest().getHeaders().getFirst(AppConstant.AUTH_TOKEN);
-		if (StrUtil.isBlank(auth_token)) {
-			return unAuth(resp, "令牌缺失,鉴权失败");
-		}
+//		if (isWhiteURL(path)) {
+//			return chain.filter(exchange);
+//		}
+//		ServerHttpResponse resp = exchange.getResponse();
+//		String auth_token = exchange.getRequest().getHeaders().getFirst(AppConstant.AUTH_TOKEN);
+//		if (StrUtil.isBlank(auth_token)) {
+//			return unAuth(resp, "令牌缺失,鉴权失败");
+//		}
 		// 此处判断令牌是否合法
 //		String auth = StrUtil.isBlank(headerToken) ? paramToken : headerToken;
 //		String token = JwtUtil.getToken(auth_token);
@@ -73,7 +61,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 //		if (claims == null) {
 //			return unAuth(resp, "请求未授权");
 //		}
-		return chain.filter(exchange);
+//		return chain.filter(exchange);
 	}
 
 	private boolean isWhiteURL(String path) {

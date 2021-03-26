@@ -1,0 +1,8 @@
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/wrapper/DictWrapper.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/service/IDictService.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/controller/DictController.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/ApplicationSystem.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/feign/DictClient.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/vo/DictVO.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/service/impl/DictServiceImpl.java
+/Users/robin/Documents/github/Spark/Spark-service/service-system/src/main/java/com/lyc/spark/service/system/mapper/DictMapper.java

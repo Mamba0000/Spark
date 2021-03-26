@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/service-demo-feign/pom.xml" />
         <option value="$PROJECT_DIR$/service-demo2-feign/pom.xml" />
         <option value="$PROJECT_DIR$/service-order/pom.xml" />
+        <option value="$PROJECT_DIR$/service-system/pom.xml" />
       </set>
     </option>
   </component>

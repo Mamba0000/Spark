@@ -1,102 +1,141 @@
+
 package com.lyc.spark.service.uum.controller;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.lyc.spark.core.auth.annotation.PreAuth;
+import com.lyc.spark.core.auth.util.BladeUser;
 import com.lyc.spark.core.common.api.CommonResult;
-import com.lyc.spark.core.mybatisplus.page.CommonPage;
-import com.lyc.spark.service.uum.vo.MenuNode;
+import com.lyc.spark.core.mybatisplus.support.Condition;
+import com.lyc.spark.core.support.Kv;
+import com.lyc.spark.core.tool.Func;
 import com.lyc.spark.service.uum.entity.Menu;
-import com.lyc.spark.service.uum.service.impl.MenuService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.lyc.spark.service.uum.service.IMenuService;
+import com.lyc.spark.service.uum.vo.MenuVO;
+import com.lyc.spark.service.uum.wrapper.MenuWrapper;
+import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
+
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 菜单管理Controller
+ * 控制器
+ *
+ * @author Chill
  */
-@Controller
-@Api(tags = "MenuController", description = "菜单管理")
+@RestController
+@AllArgsConstructor
 @RequestMapping("/menu")
-public class MenuController {
+@Api(value = "菜单", tags = "菜单")
+public class MenuController  {
 
-    @Autowired
-    private MenuService menuService;
+	private IMenuService menuService;
 
-    // good
-    @ApiOperation("添加菜单")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult create(@RequestBody Menu menu) {
-        boolean success = menuService.create(menu);
-        if (success) {
-            return CommonResult.success(null);
-        } else {
-            return CommonResult.fail();
-        }
-    }
+	/**
+	 * 详情
+	 */
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入menu")
+	public CommonResult<MenuVO> detail(Menu menu) {
+		Menu detail = menuService.getOne(Condition.getQueryWrapper(menu));
+		return CommonResult.data(MenuWrapper.build().entityVO(detail));
+	}
 
-    @ApiOperation("修改菜单")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult update(@PathVariable Long id,
-                               @RequestBody Menu menu) {
-        boolean success = menuService.update(id, menu);
-        if (success) {
-            return CommonResult.success(null);
-        } else {
-            return CommonResult.fail();
-        }
-    }
+	/**
+	 * 列表
+	 */
+	@GetMapping("/list")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "code", value = "菜单编号", paramType = "query", dataType = "string"),
+		@ApiImplicitParam(name = "name", value = "菜单名称", paramType = "query", dataType = "string")
+	})
+	@ApiOperation(value = "列表", notes = "传入menu")
+	public CommonResult<List<MenuVO>> list(@ApiIgnore @RequestParam Map<String, Object> menu) {
+		@SuppressWarnings("unchecked")
+		List<Menu> list = menuService.list(Condition.getQueryWrapper(menu, Menu.class).lambda().orderByAsc(Menu::getSort));
+		return CommonResult.data(MenuWrapper.build().listNodeVO(list));
+	}
 
-    @ApiOperation("根据ID获取菜单详情")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<Menu> getItem(@PathVariable Long id) {
-        Menu menu = menuService.getById(id);
-        return CommonResult.success(menu);
-    }
+	/**
+	 * 新增或修改
+	 */
+	@PostMapping("/submit")
+	@ApiOperation(value = "新增或修改", notes = "传入menu")
+	public CommonResult submit(@Valid @RequestBody Menu menu) {
+		return CommonResult.status(menuService.saveOrUpdate(menu));
+	}
 
-    @ApiOperation("根据ID删除菜单")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult delete(@PathVariable Long id) {
-        boolean success = menuService.removeById(id);
-        if (success) {
-            return CommonResult.success(null);
-        } else {
-            return CommonResult.fail();
-        }
-    }
 
-    @ApiOperation("分页查询菜单")
-    @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<CommonPage<Menu>> list(@PathVariable Long parentId,
-                                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<Menu> menuList = menuService.list(parentId, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(menuList));
-    }
+	/**
+	 * 删除
+	 */
+	@PostMapping("/remove")
+	@ApiOperation(value = "删除", notes = "传入ids")
+	public CommonResult remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+		return CommonResult.status(menuService.removeByIds(Func.toLongList(ids)));
+	}
 
-    @ApiOperation("树形结构返回所有菜单列表")
-    @RequestMapping(value = "/treeList", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<List<MenuNode>> treeList() {
-        List<MenuNode> list = menuService.treeList();
-        return CommonResult.success(list);
-    }
+	/**
+	 * 前端菜单数据
+	 */
+	@GetMapping("/routes")
+	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
+	public CommonResult<List<MenuVO>> routes(BladeUser user) {
+		List<MenuVO> list = menuService.routes((user == null || user.getUserId() == 0L) ? null : user.getRoleId());
+		return CommonResult.data(list);
+	}
 
-    @ApiOperation("修改菜单显示状态")
-    @RequestMapping(value = "/updateHidden/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult updateHidden(@PathVariable Long id, @RequestParam("hidden") Integer hidden) {
-        boolean success = menuService.updateHidden(id, hidden);
-        if (success) {
-            return CommonResult.success(null);
-        } else {
-            return CommonResult.fail();
-        }
-    }
+	/**
+	 * 前端按钮数据
+	 */
+	@GetMapping("/buttons")
+	@ApiOperation(value = "前端按钮数据", notes = "前端按钮数据")
+	public CommonResult<List<MenuVO>> buttons(BladeUser user) {
+		List<MenuVO> list = menuService.buttons(user.getRoleId());
+		return CommonResult.data(list);
+	}
+
+	/**
+	 * 获取菜单树形结构
+	 */
+	@GetMapping("/tree")
+	@ApiOperation(value = "树形结构", notes = "树形结构")
+	public CommonResult<List<MenuVO>> tree() {
+		List<MenuVO> tree = menuService.tree();
+		return CommonResult.data(tree);
+	}
+
+	/**
+	 * 获取权限分配树形结构
+	 */
+	@GetMapping("/grant-tree")
+	@ApiOperation(value = "权限分配树形结构", notes = "权限分配树形结构")
+	public CommonResult<List<MenuVO>> grantTree(BladeUser user) {
+		return CommonResult.data(menuService.grantTree(user));
+	}
+
+	/**
+	 * 获取权限分配树形结构
+	 */
+	@GetMapping("/role-tree-keys")
+	@ApiOperation(value = "角色所分配的树", notes = "角色所分配的树")
+	public CommonResult<List<String>> roleTreeKeys(String roleIds) {
+		return CommonResult.data(menuService.roleTreeKeys(roleIds));
+	}
+
+	/**
+	 * 获取配置的角色权限
+	 */
+	@GetMapping("auth-routes")
+	@ApiOperation(value = "菜单的角色权限")
+	public CommonResult<List<Kv>> authRoutes(BladeUser user) {
+		if (Func.isEmpty(user) || user.getUserId() == 0L) {
+			return null;
+		}
+		return CommonResult.data(menuService.authRoutes(user));
+	}
+
 }

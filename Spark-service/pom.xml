@@ -15,6 +15,7 @@
         <module>service-demo</module>
         <module>service-demo2</module>
         <module>service-uum</module>
+        <module>service-system</module>
     </modules>
 
     <dependencies>
@@ -39,11 +40,6 @@
             <artifactId>Spark-common</artifactId>
             <version>1.0.0</version>
         </dependency>
-
-
-
-
-
 
     </dependencies>
 

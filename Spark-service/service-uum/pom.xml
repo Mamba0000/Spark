@@ -49,6 +49,57 @@
             <version>1.0.0</version>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-swagger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>service-uum-feign</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-tool</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-common</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-auth</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>service-system-feign</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>${validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validation.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

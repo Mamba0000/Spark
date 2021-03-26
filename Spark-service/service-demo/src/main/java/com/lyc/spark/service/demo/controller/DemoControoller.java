@@ -1,7 +1,7 @@
 package com.lyc.spark.service.demo.controller;
 
 import com.lyc.spark.core.redis.util.RedisUtil;
-import com.lyc.spark.service.demo2.bean.Dog;
+import com.lyc.spark.service.demo2.entity.Dog;
 import com.lyc.spark.service.demo2.feign.DogFeignClient;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.RequestMapping;

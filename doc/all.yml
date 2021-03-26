@@ -40,4 +40,14 @@ spark:
       enable: true #开启 spark-core-mybatis-plus
     redis:
       enable: true #开启 spark-core-redis
-
+    swagger:
+      enable: true #开启 spark-core-swagger
+      basePackage: com.lyc
+      title: title-001
+      description: des-001
+      license: lic-001
+      serviceUrl: url-001
+      contactName: liyicheng
+      contactUrl: www.liyicheng.com
+      contactEmail: 306702227@qq.com
+      version: 1.0.0

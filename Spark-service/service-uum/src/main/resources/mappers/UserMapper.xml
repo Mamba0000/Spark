@@ -3,31 +3,135 @@
 <mapper namespace="com.lyc.spark.service.uum.mapper.UserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.lyc.spark.service.uum.entity.User">
-        <id column="id" property="id"/>
-        <result column="username" property="username"/>
-        <result column="password" property="password"/>
-        <result column="icon" property="icon"/>
-        <result column="email" property="email"/>
-        <result column="nick_name" property="nickName"/>
-        <result column="note" property="note"/>
+    <resultMap id="userResultMap" type="com.lyc.spark.service.uum.entity.User">
+        <result column="id" property="id"/>
+        <result column="tenant_id" property="tenantId"/>
+        <result column="create_user" property="createUser"/>
         <result column="create_time" property="createTime"/>
-        <result column="login_time" property="loginTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_time" property="updateTime"/>
         <result column="status" property="status"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="code" property="code"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="real_name" property="realName"/>
+        <result column="email" property="email"/>
+        <result column="phone" property="phone"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="role_id" property="roleId"/>
+        <result column="dept_id" property="deptId"/>
     </resultMap>
 
-    <select id="getAdminIdList" resultType="java.lang.Long">
+    <!-- 通用查询结果列 -->
+    <sql id="baseColumnList">
+        select id,
+               create_user AS createUser,
+               create_time AS createTime,
+               update_user AS updateUser,
+               update_time AS updateTime,
+               status,
+               is_deleted  AS isDeleted,
+               account,
+               password,
+               name,
+               real_name,
+               email,
+               phone,
+               birthday,
+               sex,
+               role_id,
+               dept_id
+    </sql>
+
+    <select id="selectUserPage" resultMap="userResultMap">
+        select *
+        from spark_user
+        where is_deleted = 0
+    </select>
+
+    <select id="getUser" resultMap="userResultMap">
+        SELECT *
+        FROM spark_user
+        WHERE tenant_id = #{param1}
+          and account = #{param2}
+          and password = #{param3}
+          and is_deleted = 0
+    </select>
+
+    <select id="getRoleName" resultType="java.lang.String">
         SELECT
-        DISTINCT ar.admin_id
+        role_name
         FROM
-        tb_role_permission_relation rr
-        LEFT JOIN tb_user_role_relation ar ON rr.role_id = ar.role_id
-        WHERE rr.resource_id=#{resourceId}
+        spark_role
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted = 0
+    </select>
+
+    <select id="getRoleAlias" resultType="java.lang.String">
+        SELECT
+        role_alias
+        FROM
+        spark_role
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted = 0
     </select>
 
 
-    <select id="selectMyUsers" resultMap="BaseResultMap">
-        SELECT * FROM tb_user where tb_user.id != #{user.id}
+    <select id="getRoles" resultType="com.lyc.spark.service.uum.entity.Role">
+        SELECT *
+        FROM spark_role sr
+                 RIGHT JOIN (
+            SELECT sur.role_id
+            FROM spark_user_role sur
+                     LEFT JOIN spark_user su ON sur.user_id = su.id
+            WHERE su.id = #{id}
+        ) ri ON sr.id = ri.role_id
     </select>
+
+
+    <select id="getPermissionsByRoleIds" resultType="com.lyc.spark.service.uum.entity.Permission">
+        SELECT
+        *
+        FROM
+        spark_permission sp
+        RIGHT JOIN (
+        SELECT
+        srp.*
+        FROM
+        spark_role_permission srp
+        RIGHT JOIN spark_user_role sur ON srp.role_id = sur.role_id
+        WHERE
+        sur.role_id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        ) t ON sp.id = t.permission_id
+    </select>
+
+
+    <select id="getDeptName" resultType="java.lang.String">
+        SELECT
+        dept_name
+        FROM
+        spark_dept
+        WHERE
+        id IN
+        <foreach collection="array" item="ids" index="index" open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+        and is_deleted = 0
+    </select>
+
 
 </mapper>

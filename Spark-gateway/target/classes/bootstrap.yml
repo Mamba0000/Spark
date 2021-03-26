@@ -22,10 +22,10 @@ spring:
           uri: lb://service-demo
           predicates:
             - Path=/service-demo/**
-        - id: nacos-getway-consumer
-          uri: lb://nacos-consumer
+        - id: service-uum
+          uri: lb://service-uum
           predicates:
-            - Path=/**
+            - Path=/service-uum/**
   profiles:
     active: dev
 

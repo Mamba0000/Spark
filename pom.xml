@@ -11,7 +11,7 @@
 
         <java.version>1.8</java.version>
         <maven.plugin.version>3.8.1</maven.plugin.version>
-        <swagger.version>2.6.1</swagger.version>
+        <swagger.version>2.10.5</swagger.version>
         <swagger.models.version>1.6.2</swagger.models.version>
         <spring.plugin.version>2.0.0.RELEASE</spring.plugin.version>
         <knife4j.version>2.0.8</knife4j.version>
@@ -27,6 +27,9 @@
 
         <hutool.version>5.4.4</hutool.version>
 
+        <validation.version>1.1.0.Final</validation.version>
+        <hibernate.validation.version>5.2.4.Final</hibernate.validation.version>
+
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -36,9 +39,12 @@
         <!--  spark core  核心公共版本号    -->
         <spark.core.tool.version>1.0.0</spark.core.tool.version>
         <spark.core.user.version>1.0.0</spark.core.user.version>
+        <spark.core.auth.version>1.0.0</spark.core.auth.version>
         <spark.core.redis.version>1.0.0</spark.core.redis.version>
         <spark.core.common.version>1.0.0</spark.core.common.version>
         <spark.core.mybatisplus.version>1.0.0</spark.core.mybatisplus.version>
+        <spark.core.swagger.version>1.0.0</spark.core.swagger.version>
+
 
 
     </properties>
@@ -65,6 +71,14 @@
 
             <dependency>
                 <groupId>com.lyc</groupId>
+                <artifactId>Spark-core-auth</artifactId>
+                <version>${spark.core.auth.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.lyc</groupId>
                 <artifactId>Spark-core-user</artifactId>
                 <version>${spark.core.user.version}</version>
                 <type>pom</type>
@@ -79,6 +93,13 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>com.lyc</groupId>
+                <artifactId>Spark-core-swagger</artifactId>
+                <version>${spark.core.swagger.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- 微服务 spring boot -->
             <dependency>
@@ -105,7 +126,6 @@
                 <scope>import</scope>
             </dependency>
 
-
             <!--nacos 注册中心客户端-->
             <dependency>
                 <groupId>com.alibaba.cloud</groupId>
@@ -130,6 +150,18 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validation.version}</version>
+            </dependency>
+
 
             <!-- spring plugin-->
             <dependency>
@@ -159,18 +191,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
-        </dependency>
-        <!-- swagger2 暂时放这里-->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.6.1</version>
-<!--            <version>${swagger.version}</version>-->
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
         </dependency>
 
         <dependency>

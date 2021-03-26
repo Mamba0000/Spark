@@ -15,6 +15,7 @@
         <module>service-demo2-feign</module>
         <module>service-demo-feign</module>
         <module>service-uum-feign</module>
+        <module>service-system-feign</module>
     </modules>
 
     <properties>
@@ -28,6 +29,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-swagger</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
     </dependencies>
 
 </project>

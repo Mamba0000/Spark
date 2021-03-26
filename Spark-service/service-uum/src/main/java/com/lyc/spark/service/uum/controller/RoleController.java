@@ -1,126 +1,103 @@
+
 package com.lyc.spark.service.uum.controller;
-
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lyc.spark.core.auth.util.BladeUser;
 import com.lyc.spark.core.common.api.CommonResult;
-import com.lyc.spark.core.mybatisplus.page.CommonPage;
-import com.lyc.spark.service.uum.entity.Menu;
-import com.lyc.spark.service.uum.entity.Permission;
+import com.lyc.spark.core.constant.BladeConstant;
+import com.lyc.spark.core.mybatisplus.support.Condition;
+import com.lyc.spark.core.node.INode;
+import com.lyc.spark.core.tool.Func;
 import com.lyc.spark.service.uum.entity.Role;
-import com.lyc.spark.service.uum.service.impl.RoleService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.lyc.spark.service.uum.service.IRoleService;
+import com.lyc.spark.service.uum.vo.GrantVO;
+import com.lyc.spark.service.uum.vo.RoleVO;
+import com.lyc.spark.service.uum.wrapper.RoleWrapper;
+import io.swagger.annotations.*;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
-/*
- * 用户角色管理
+/**
+ * 控制器
+ *
+ * @author Chill
  */
-@Controller
-@Api(tags = "RoleController", description = "用户角色管理")
+@RestController
+@AllArgsConstructor
 @RequestMapping("/role")
-public class RoleController {
-    @Autowired
-    private RoleService roleService;
+@Api(value = "角色", tags = "角色")
+public class RoleController  {
 
-    @ApiOperation("添加角色")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult create(@RequestBody Role role) {
-        boolean success = roleService.create(role);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
+	private IRoleService roleService;
 
-    @ApiOperation("修改角色")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult update(@PathVariable Long id, @RequestBody Role role) {
-        role.setId(id);
-        boolean success = roleService.updateById(role);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
+	/**
+	 * 详情
+	 */
+	@GetMapping("/detail")
+	@ApiOperation(value = "详情", notes = "传入role")
+	public CommonResult<RoleVO> detail(Role role) {
+		Role detail = roleService.getOne(Condition.getQueryWrapper(role));
+		return CommonResult.data(RoleWrapper.build().entityVO(detail));
+	}
 
-    @ApiOperation("批量删除角色")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult delete(@RequestParam("ids") List<Long> ids) {
-        boolean success = roleService.delete(ids);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
+	/**
+	 * 列表
+	 */
+	@GetMapping("/list")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "roleName", value = "参数名称", paramType = "query", dataType = "string"),
+		@ApiImplicitParam(name = "roleAlias", value = "角色别名", paramType = "query", dataType = "string")
+	})
+	@ApiOperation(value = "列表", notes = "传入role")
+	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> role, BladeUser bladeUser) {
+		QueryWrapper<Role> queryWrapper = Condition.getQueryWrapper(role, Role.class);
+		List<Role> list = roleService.list((!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Role::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		return CommonResult.data(RoleWrapper.build().listNodeVO(list));
+	}
+
+	/**
+	 * 获取角色树形结构
+	 */
+	@GetMapping("/tree")
+	@ApiOperation(value = "树形结构", notes = "树形结构")
+	public CommonResult<List<RoleVO>> tree(String tenantId, BladeUser bladeUser) {
+		List<RoleVO> tree = roleService.tree(Func.toStr(tenantId, bladeUser.getTenantId()));
+		return CommonResult.data(tree);
+	}
+
+	/**
+	 * 新增或修改
+	 */
+	@PostMapping("/submit")
+	@ApiOperation(value = "新增或修改", notes = "传入role")
+	public CommonResult submit(@Valid @RequestBody Role role, BladeUser user) {
+		if (Func.isEmpty(role.getId())) {
+			role.setTenantId(user.getTenantId());
+		}
+		return CommonResult.status(roleService.saveOrUpdate(role));
+	}
 
 
-    @ApiOperation("获取所有角色")
-    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<List<Role>> listAll() {
-        List<Role> roleList = roleService.list();
-        return CommonResult.success(roleList);
-    }
+	/**
+	 * 删除
+	 */
+	@PostMapping("/remove")
+	@ApiOperation(value = "删除", notes = "传入ids")
+	public CommonResult remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
+		return CommonResult.status(roleService.removeByIds(Func.toLongList(ids)));
+	}
 
-    @ApiOperation("根据角色名称分页获取角色列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<CommonPage<Role>> list(@RequestParam(value = "keyword", required = false) String keyword,
-                                               @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
-                                               @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
-        Page<Role> roleList = roleService.list(keyword, pageSize, pageNum);
-        return CommonResult.success(CommonPage.restPage(roleList));
-    }
-
-    @ApiOperation("修改角色状态")
-    @RequestMapping(value = "/updateStatus/{id}", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult updateStatus(@PathVariable Long id, @RequestParam(value = "status") Integer status) {
-        Role role = new Role();
-        role.setId(id);
-        role.setStatus(status);
-        boolean success = roleService.updateById(role);
-        if (success) {
-            return CommonResult.success(null);
-        }
-        return CommonResult.fail();
-    }
-
-    @ApiOperation("获取角色相关菜单")
-    @RequestMapping(value = "/listMenu/{roleId}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<List<Menu>> listMenu(@PathVariable Long roleId) {
-        List<Menu> roleList = roleService.listMenu(roleId);
-        return CommonResult.success(roleList);
-    }
-
-    @ApiOperation("获取角色相关权限")
-    @RequestMapping(value = "/listResource/{roleId}", method = RequestMethod.GET)
-    @ResponseBody
-    public CommonResult<List<Permission>> listResource(@PathVariable Long roleId) {
-        List<Permission> roleList = roleService.listResource(roleId);
-        return CommonResult.success(roleList);
-    }
-
-    @ApiOperation("给角色分配菜单")
-    @RequestMapping(value = "/allocMenu", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult allocMenu(@RequestParam Long roleId, @RequestParam List<Long> menuIds) {
-        int count = roleService.allocMenu(roleId, menuIds);
-        return CommonResult.success(count);
-    }
-
-    @ApiOperation("给角色分配权限")
-    @RequestMapping(value = "/allocResource", method = RequestMethod.POST)
-    @ResponseBody
-    public CommonResult allocResource(@RequestParam Long roleId, @RequestParam List<Long> resourceIds) {
-        int count = roleService.allocResource(roleId, resourceIds);
-        return CommonResult.success(count);
-    }
+	/**
+	 * 设置菜单权限
+	 */
+	@PostMapping("/grant")
+	@ApiOperation(value = "权限设置", notes = "传入roleId集合以及menuId集合")
+	public CommonResult grant(@RequestBody GrantVO grantVO) {
+		boolean temp = roleService.grant(grantVO.getRoleIds(), grantVO.getMenuIds());
+		return CommonResult.status(temp);
+	}
 
 }
