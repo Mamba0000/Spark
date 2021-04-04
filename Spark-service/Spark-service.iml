@@ -171,8 +171,9 @@
     <orderEntry type="library" name="Maven: org.reactivestreams:reactive-streams:1.0.3" level="project" />
     <orderEntry type="library" name="Maven: com.lyc:Spark-core-auth:1.0.0" level="project" />
     <orderEntry type="module" module-name="Spark-common" />
+    <orderEntry type="library" name="Maven: com.lyc:Spark-core-common:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: com.lyc:Spark-core-web:1.0.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.projectlombok:lombok:1.18.18" level="project" />
     <orderEntry type="library" name="Maven: cn.hutool:hutool-all:5.4.4" level="project" />
-    <orderEntry type="library" name="Maven: com.lyc:Spark-core-common:1.0.0" level="project" />
   </component>
 </module>

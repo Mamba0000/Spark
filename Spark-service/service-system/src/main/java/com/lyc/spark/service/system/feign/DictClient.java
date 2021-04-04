@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * 字典服务Feign实现类
  *
- * @author Chill
  */
 @ApiIgnore
 @RestController

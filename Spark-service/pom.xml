@@ -16,6 +16,7 @@
         <module>service-demo2</module>
         <module>service-uum</module>
         <module>service-system</module>
+        <module>service-sentinel-demo</module>
     </modules>
 
     <dependencies>
@@ -38,6 +39,12 @@
         <dependency>
             <groupId>com.lyc</groupId>
             <artifactId>Spark-common</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-web</artifactId>
             <version>1.0.0</version>
         </dependency>
 

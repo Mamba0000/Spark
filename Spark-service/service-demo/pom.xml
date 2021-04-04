@@ -39,6 +39,13 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.lyc</groupId>
+            <artifactId>Spark-core-auth</artifactId>
+            <version>${spark.core.auth.version}</version>
+        </dependency>
+
+
         <!-- spring cloud  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -11,14 +11,12 @@ import com.lyc.spark.core.tool.SpringUtil;
 import com.lyc.spark.service.system.entiy.Dict;
 import com.lyc.spark.service.system.service.IDictService;
 import com.lyc.spark.service.system.vo.DictVO;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * 包装类,返回视图层所需的字段
  *
- * @author Chill
  */
 public class DictWrapper extends BaseEntityWrapper<Dict, DictVO> {
 

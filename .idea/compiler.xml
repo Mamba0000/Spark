@@ -17,6 +17,7 @@
         <module name="service-system" />
         <module name="Spark-gateway" />
         <module name="service-demo2" />
+        <module name="service-sentinel-demo" />
         <module name="Spark-auth" />
       </profile>
     </annotationProcessing>
@@ -27,6 +28,7 @@
       <module name="service-demo2" target="8" />
       <module name="service-demo2-feign" target="8" />
       <module name="service-order" target="8" />
+      <module name="service-sentinel-demo" target="8" />
       <module name="service-system" target="8" />
       <module name="service-system-feign" target="8" />
       <module name="service-uum" target="8" />

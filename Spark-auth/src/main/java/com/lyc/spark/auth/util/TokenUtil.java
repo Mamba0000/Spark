@@ -44,10 +44,10 @@ public class TokenUtil {
 		param.put(TokenConstant.TENANT_ID, user.getTenantId());
 		param.put(TokenConstant.OAUTH_ID, userInfo.getOauthId());
 		param.put(TokenConstant.USER_ID, Func.toStr(user.getId()));
-		param.put(TokenConstant.ROLE_ID, Func.join(userInfo.getRoles(),"$"));
 		param.put(TokenConstant.ACCOUNT, user.getAccount());
 		param.put(TokenConstant.USER_NAME, user.getAccount());
 		param.put(TokenConstant.ROLE_NAME, Func.join(userInfo.getRoles()));
+		// 目前用这个做权限判断
 		param.put(TokenConstant.PERMISSIONS, Func.join(userInfo.getPermissions(),"$"));
 
 		TokenInfo accessToken = SecureUtil.createJWT(param, "audience", "issuser", TokenConstant.ACCESS_TOKEN);
@@ -58,6 +58,7 @@ public class TokenUtil {
 		authInfo.setAccount(user.getAccount());
 		authInfo.setUserName(user.getRealName());
 		authInfo.setAuthority(Func.join(userInfo.getRoles()));
+		System.out.println("->> 生成的token --> " + accessToken.getToken());
 		authInfo.setAccessToken(accessToken.getToken());
 		authInfo.setExpiresIn(accessToken.getExpire());
 		authInfo.setRefreshToken(createRefreshToken(userInfo).getToken());

@@ -10,7 +10,6 @@ import com.lyc.spark.service.uum.feign.UserFeignClient;
 import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.util.Objects;
 
 /**

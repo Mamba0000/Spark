@@ -21,7 +21,6 @@ import com.lyc.spark.service.uum.entity.AuthClient;
 /**
  * Mapper 接口
  *
- * @author Chill
  */
 public interface AuthClientMapper extends BaseMapper<AuthClient> {
 

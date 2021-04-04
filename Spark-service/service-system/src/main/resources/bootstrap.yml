@@ -23,7 +23,7 @@ spark:
     #      enable: true #开启 spark-core-redis
     swagger:
       enable: true #开启 spark-core-swagger
-      basePackage: com.lyc.spark.service.uum
+      basePackage: com.lyc.spark.service.system
       title: @artifactId@
       description: des-001
       license: lic-001

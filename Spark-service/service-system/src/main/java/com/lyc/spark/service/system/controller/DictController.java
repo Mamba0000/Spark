@@ -20,9 +20,8 @@ import static com.lyc.spark.core.common.constant.CacheNames.DICT_LIST;
 import static com.lyc.spark.core.common.constant.CacheNames.DICT_VALUE;
 
 /**
- * 控制器
+ * 控制器 OK
  *
- * @author Chill
  */
 @RestController
 @AllArgsConstructor

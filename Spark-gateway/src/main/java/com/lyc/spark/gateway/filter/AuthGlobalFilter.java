@@ -2,12 +2,17 @@
 package com.lyc.spark.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.common.api.ResultCode;
 import com.lyc.spark.core.common.constant.AppConstant;
 import com.lyc.spark.gateway.config.WhiteURLConfig;
+import com.lyc.spark.gateway.provider.AuthProvider;
+import com.lyc.spark.gateway.provider.ResponseProvider;
+import com.lyc.spark.gateway.utils.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +26,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,46 +39,39 @@ import java.util.List;
 @AllArgsConstructor // 该注解 默认生成全部属性的构造函数  所有属性通过构造函数注入
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-
-	public WhiteURLConfig whiteURLConfig;
-
+	private WhiteURLConfig authProperties;
 	private ObjectMapper objectMapper;
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		String path = exchange.getRequest().getURI().getPath();
+//		return chain.filter(exchange);
 
+		if (isSkip(path)) {
+			return chain.filter(exchange);
+		}
+		ServerHttpResponse resp = exchange.getResponse();
+		String headerToken = exchange.getRequest().getHeaders().getFirst(AuthProvider.AUTH_KEY);
+		String paramToken = exchange.getRequest().getQueryParams().getFirst(AuthProvider.AUTH_KEY);
+		if (StringUtils.isAllBlank(headerToken, paramToken)) {
+			return unAuth(resp, "缺失令牌,鉴权失败");
+		}
+		String auth = StringUtils.isBlank(headerToken) ? paramToken : headerToken;
+		String token = JwtUtil.getToken(auth);
+		System.out.println("<<--收到的token<<--"+ token);
+		Claims claims = JwtUtil.parseJWT(token);
+		if (claims == null) {
+			return unAuth(resp, "请求未授权");
+		}
 		return chain.filter(exchange);
 
-		//  如果是白名单通过
-//		if (isWhiteURL(path)) {
-//			return chain.filter(exchange);
-//		}
-//		ServerHttpResponse resp = exchange.getResponse();
-//		String auth_token = exchange.getRequest().getHeaders().getFirst(AppConstant.AUTH_TOKEN);
-//		if (StrUtil.isBlank(auth_token)) {
-//			return unAuth(resp, "令牌缺失,鉴权失败");
-//		}
-		// 此处判断令牌是否合法
-//		String auth = StrUtil.isBlank(headerToken) ? paramToken : headerToken;
-//		String token = JwtUtil.getToken(auth_token);
-//		Claims claims = JwtUtil.parseJWT(token);
-//		if (claims == null) {
-//			return unAuth(resp, "请求未授权");
-//		}
-//		return chain.filter(exchange);
 	}
 
-	private boolean isWhiteURL(String path) {
-		final List<String> whiteURL = whiteURLConfig.getWhiteURL();
-		boolean flag = false;
-		for (int i = 0; i < whiteURL.size(); i++) {
-			if(whiteURL.get(i).contains(path)) {
-				flag = true;
-				return flag;
-			}
-		}
-		return flag;
+
+
+	private boolean isSkip(String path) {
+		return AuthProvider.getDefaultSkipUrl().stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::contains)
+				|| authProperties.getWhiteURL().stream().map(url -> url.replace(AuthProvider.TARGET, AuthProvider.REPLACEMENT)).anyMatch(path::contains);
 	}
 
 	private Mono<Void> unAuth(ServerHttpResponse resp, String msg) {
@@ -81,7 +79,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 		resp.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
 		String result = "";
 		try {
-			result = objectMapper.writeValueAsString(CommonResult.fail(ResultCode.UNAUTHORIZED, msg));
+			result = objectMapper.writeValueAsString(ResponseProvider.unAuth(msg));
 		} catch (JsonProcessingException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -91,7 +89,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public int getOrder() {
-		return -200;
+		return -100;
 	}
 
 

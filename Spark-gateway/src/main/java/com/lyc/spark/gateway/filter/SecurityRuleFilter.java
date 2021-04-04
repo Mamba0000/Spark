@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 
 /**
- * CORS 过滤
+ * CORS 过滤 跨域
  */
 @Slf4j
 @RequiredArgsConstructor

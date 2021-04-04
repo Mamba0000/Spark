@@ -2,7 +2,7 @@ server:
   port: 8805
 spring:
   application:
-    name: Spark-auth
+    name: spark-auth
   cloud:
     nacos:
       discovery:
@@ -24,7 +24,7 @@ spark:
     swagger:
       enable: true #开启 spark-core-swagger
       basePackage: com.lyc.spark.auth
-      title: Spark-auth
+      title: spark-auth
       description: 授权中心
       license: lic-001
       serviceUrl: 授权中心

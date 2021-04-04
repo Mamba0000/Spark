@@ -44,8 +44,7 @@
         <spark.core.common.version>1.0.0</spark.core.common.version>
         <spark.core.mybatisplus.version>1.0.0</spark.core.mybatisplus.version>
         <spark.core.swagger.version>1.0.0</spark.core.swagger.version>
-
-
+        <spark.core.sentinel.version>1.0.0</spark.core.sentinel.version>
 
     </properties>
 
@@ -199,11 +198,8 @@
             <version>${hutool.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.lyc</groupId>
-            <artifactId>Spark-core-common</artifactId>
-            <version>${spark.core.common.version}</version>
-        </dependency>
+
+
 
     </dependencies>
 

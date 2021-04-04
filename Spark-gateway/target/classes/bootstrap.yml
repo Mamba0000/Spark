@@ -2,7 +2,7 @@ server:
   port: 8800
 spring:
   application:
-    name: Spark-gateway
+    name: spark-gateway
   cloud:
     nacos:
       discovery:
@@ -17,7 +17,7 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
-      routes:
+      routes: # 注意大小写 用小写
         - id: service-demo
           uri: lb://service-demo
           predicates:
@@ -26,6 +26,11 @@ spring:
           uri: lb://service-uum
           predicates:
             - Path=/service-uum/**
+        - id: Spark-auth
+          uri: lb://spark-auth
+          predicates:
+            - Path=/spark-auth/**
+
   profiles:
     active: dev
 

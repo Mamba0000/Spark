@@ -1,6 +1,0 @@
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/filter/AuthGlobalFilter.java
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/ApplicationGateway.java
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/config/WhiteURLConfig.java
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/filter/SecurityRuleFilter.java
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/handle/GlobalExceptionHandler.java
-/Users/robin/Documents/github/Spark/Spark-gateway/src/main/java/com/lyc/spark/gateway/config/SwaggerResourceConfig.java
