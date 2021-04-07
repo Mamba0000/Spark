@@ -13,3 +13,16 @@
 *.zip
 *.rar
 *.tar.gz
+/Spark-auth/target
+/Spark-common/target
+/Spark-gateway/target
+/Spark-service/service-demo/target
+/Spark-service/service-demo/target
+/Spark-service/service-demo2/target
+/Spark-service/service-sentinel-demo/target
+/Spark-service/service-system/target
+/Spark-service/service-uum/target
+/Spark-service-feign/service-demo2-feign/target
+/Spark-service-feign/service-demo-feign/target
+/Spark-service-feign/service-system-feign/target
+/Spark-service-feign/service-uum-feign/target
