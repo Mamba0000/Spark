@@ -40,8 +40,8 @@ import java.util.Map;
  * @author Chill
  */
 @RestController
-@RequestMapping
 @AllArgsConstructor
+@RequestMapping("/user")
 public class UserController {
 
 	private IUserService userService;
