@@ -50,7 +50,7 @@ public class DeptController  {
 	@GetMapping("/list")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "deptName", value = "部门名称", paramType = "query", dataType = "string"),
-		@ApiImplicitParam(name = "fullName", value = "部门全称", paramType = "query", dataType = "string")
+		@ApiImplicitParam(name = "deptName", value = "部门全称", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "列表", notes = "传入dept")
 	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> dept, BladeUser bladeUser) {

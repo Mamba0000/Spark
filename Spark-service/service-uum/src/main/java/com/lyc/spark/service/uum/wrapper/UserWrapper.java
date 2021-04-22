@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 /**
  * 包装类,返回视图层所需的字段
  *
- * @author Chill
  */
 public class UserWrapper extends BaseEntityWrapper<User, UserVO> {
 

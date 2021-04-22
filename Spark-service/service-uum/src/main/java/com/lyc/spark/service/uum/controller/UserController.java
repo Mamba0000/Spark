@@ -83,10 +83,12 @@ public class UserController {
 		return CommonResult.data(UserWrapper.build().pageVO(pages));
 	}
 
+
+
 	/**
 	 * 新增或修改
 	 */
-	@PostMapping("/submit")
+	@PostMapping("/addOrUpdate")
 	@ApiOperation(value = "新增或修改", notes = "传入User")
 	public CommonResult submit(@Valid @RequestBody User user) {
 		return CommonResult.status(userService.submit(user));

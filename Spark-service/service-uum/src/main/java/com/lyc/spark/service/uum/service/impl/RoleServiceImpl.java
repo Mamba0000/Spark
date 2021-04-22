@@ -30,7 +30,6 @@ import java.util.stream.Collectors;
  * @author Chill
  */
 @Service
-@Validated
 @AllArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IRoleService {
 
