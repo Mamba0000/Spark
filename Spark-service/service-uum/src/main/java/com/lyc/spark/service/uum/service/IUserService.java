@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author Chill
+ * 
  */
 public interface IUserService extends BaseService<User> {
 

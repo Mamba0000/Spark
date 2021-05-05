@@ -4,7 +4,8 @@ package com.lyc.spark.service.uum.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.SecureUtil;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.mybatisplus.support.Condition;
@@ -13,6 +14,8 @@ import com.lyc.spark.core.support.Kv;
 import com.lyc.spark.core.tool.Func;
 import com.lyc.spark.service.uum.entity.Tenant;
 import com.lyc.spark.service.uum.service.ITenantService;
+import com.lyc.spark.service.uum.vo.TenantVO;
+import com.lyc.spark.service.uum.wrapper.TenantWrapper;
 import io.swagger.annotations.*;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,14 +27,13 @@ import java.util.Map;
 /**
  * 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/tenant")
 @Api(value = "租户管理", tags = "租户管理")
 public class TenantController  {
-
 	private ITenantService tenantService;
 
 	/**
@@ -49,53 +51,32 @@ public class TenantController  {
 	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "tenantId", value = "参数名称", paramType = "query", dataType = "string"),
-		@ApiImplicitParam(name = "tenantName", value = "角色别名", paramType = "query", dataType = "string"),
+		@ApiImplicitParam(name = "tenantId", value = "租户ID", paramType = "query", dataType = "string"),
+		@ApiImplicitParam(name = "tenantName", value = "租户名称", paramType = "query", dataType = "string"),
 		@ApiImplicitParam(name = "contactNumber", value = "联系电话", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "分页", notes = "传入tenant")
-	public CommonResult<IPage<Tenant>> list(@RequestParam Map<String, Object> tenant, Query query, BladeUser bladeUser) {
+	public CommonResult<IPage<TenantVO>> list(@RequestParam Map<String, Object> tenant, Query query) {
 		// 如果是超级用户可以查询全部 否则只能查询自己
 		QueryWrapper<Tenant> queryWrapper = Condition.getQueryWrapper(tenant, Tenant.class);
-		IPage<Tenant> pages = tenantService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Tenant::getTenantId, bladeUser.getTenantId()) : queryWrapper);
-		return CommonResult.data(pages);
-	}
-
-	/**
-	 * 下拉数据源
-	 */
-	@GetMapping("/select")
-	@ApiOperation(value = "下拉数据源", notes = "传入tenant")
-	public CommonResult<List<Tenant>> select(Tenant tenant, BladeUser bladeUser) {
-		QueryWrapper<Tenant> queryWrapper = Condition.getQueryWrapper(tenant);
-		List<Tenant> list = tenantService.list((!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Tenant::getTenantId, bladeUser.getTenantId()) : queryWrapper);
-		return CommonResult.data(list);
-	}
-
-	/**
-	 * 自定义分页
-	 */
-	@GetMapping("/page")
-	@ApiOperation(value = "分页", notes = "传入tenant")
-	public CommonResult<IPage<Tenant>> page(Tenant tenant, Query query) {
-		IPage<Tenant> pages = tenantService.selectTenantPage(Condition.getPage(query), tenant);
-		return CommonResult.data(pages);
+		TokenUser tokenUser = SecureUtil.getUser();
+		IPage<Tenant> pages = tenantService.page(Condition.getPage(query), (!tokenUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Tenant::getTenantId, tokenUser.getTenantId()) : queryWrapper);
+		return CommonResult.data(TenantWrapper.build().pageVO(pages));
 	}
 
 	/**
 	 * 新增或修改
 	 */
-	@PostMapping("/submit")
+	@PostMapping("/addOrUpdate")
 	@ApiOperation(value = "新增或修改", notes = "传入tenant")
-	public CommonResult submit(@Valid @RequestBody Tenant tenant) {
+	public CommonResult addOrUpdate(@Valid @RequestBody Tenant tenant) {
 		return CommonResult.status(tenantService.saveTenant(tenant));
 	}
-
 
 	/**
 	 * 删除
 	 */
-	@PostMapping("/remove")
+	@PostMapping("/deleteLogic")
 	@ApiOperation(value = "逻辑删除", notes = "传入ids")
 	public CommonResult remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return CommonResult.status(tenantService.deleteLogic(Func.toLongList(ids)));

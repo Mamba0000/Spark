@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Mapper 接口
  *
- * @author Chill
+ * 
  */
 public interface UserMapper extends BaseMapper<User> {
 

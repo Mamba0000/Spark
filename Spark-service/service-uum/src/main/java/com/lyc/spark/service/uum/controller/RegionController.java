@@ -22,7 +22,7 @@ import java.util.Map;
 /**
  * 行政区划表 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
@@ -126,6 +126,5 @@ public class RegionController  {
 		List<Region> list = regionService.list(Wrappers.<Region>query().lambda().eq(Region::getParentCode, code));
 		return CommonResult.data(list);
 	}
-
 
 }

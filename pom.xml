@@ -173,6 +173,8 @@
                 <artifactId>spring-plugin-metadata</artifactId>
                 <version>${spring.plugin.version}</version>
             </dependency>
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -198,7 +200,11 @@
             <version>${hutool.version}</version>
         </dependency>
 
-
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validation.version}</version>
+        </dependency>
 
 
     </dependencies>

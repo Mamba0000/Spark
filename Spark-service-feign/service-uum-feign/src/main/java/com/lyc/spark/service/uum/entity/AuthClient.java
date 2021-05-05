@@ -12,12 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-/**
- * 实体类
- *
- * @author BladeX
- * @since 2019-03-24
- */
+
 @Data
 @TableName("spark_client")
 @EqualsAndHashCode(callSuper = true)

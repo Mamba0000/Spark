@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 鉴权配置
  *
- * @author Chill
+ * 
  */
 public class AuthProvider {
 

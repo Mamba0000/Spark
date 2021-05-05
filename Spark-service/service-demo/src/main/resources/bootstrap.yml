@@ -7,7 +7,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 42.194.199.234:8848 # 配置服务地址
+        server-addr: 127.0.0.1:8848 # 配置服务地址
       config:
         server-addr: ${spring.cloud.nacos.discovery.server-addr} # 取上面配置的地址
         file-extension: yml

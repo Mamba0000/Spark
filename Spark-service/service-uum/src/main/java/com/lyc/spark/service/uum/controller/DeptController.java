@@ -2,7 +2,8 @@
 package com.lyc.spark.service.uum.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.SecureUtil;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.mybatisplus.support.Condition;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  * 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
@@ -53,9 +54,10 @@ public class DeptController  {
 		@ApiImplicitParam(name = "deptName", value = "部门全称", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "列表", notes = "传入dept")
-	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> dept, BladeUser bladeUser) {
+	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> dept) {
 		QueryWrapper<Dept> queryWrapper = Condition.getQueryWrapper(dept, Dept.class);
-		List<Dept> list = deptService.list((!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Dept::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		TokenUser tokenUser  = SecureUtil.getUser();
+		List<Dept> list = deptService.list((!tokenUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Dept::getTenantId, tokenUser.getTenantId()) : queryWrapper);
 		return CommonResult.data(DeptWrapper.build().listNodeVO(list));
 	}
 
@@ -66,8 +68,9 @@ public class DeptController  {
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
-	public CommonResult<List<DeptVO>> tree(String tenantId, BladeUser bladeUser) {
-		List<DeptVO> tree = deptService.tree(Func.toStr(tenantId, bladeUser.getTenantId()));
+	public CommonResult<List<DeptVO>> tree(String tenantId) {
+		TokenUser tokenUser  = SecureUtil.getUser();
+		List<DeptVO> tree = deptService.tree(Func.toStr(tenantId, tokenUser.getTenantId()));
 		return CommonResult.data(tree);
 	}
 
@@ -76,9 +79,10 @@ public class DeptController  {
 	 */
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入dept")
-	public CommonResult submit(@Valid @RequestBody Dept dept, BladeUser user) {
+	public CommonResult submit(@Valid @RequestBody Dept dept) {
+		TokenUser tokenUser  = SecureUtil.getUser();
 		if (Func.isEmpty(dept.getId())) {
-			dept.setTenantId(user.getTenantId());
+			dept.setTenantId(tokenUser.getTenantId());
 		}
 		return CommonResult.status(deptService.saveOrUpdate(dept));
 	}

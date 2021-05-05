@@ -1,7 +1,7 @@
 package com.lyc.spark.auth.granter;
 
 import com.lyc.spark.auth.util.TokenUtil;
-import com.lyc.spark.core.auth.enums.BladeUserEnum;
+import com.lyc.spark.core.auth.enums.UserEnum;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.common.constant.CacheNames;
 import com.lyc.spark.core.common.exception.ServiceException;
@@ -51,9 +51,9 @@ public class CaptchaTokenGranter implements ITokenGranter {
             String userType = tokenParameter.getArgs().getStr("userType");
             CommonResult<UserInfo> result;
             // 根据不同用户类型调用对应的接口返回数据，用户可自行拓展
-            if (userType.equals(BladeUserEnum.WEB.getName())) {
+            if (userType.equals(UserEnum.WEB.getName())) {
                 result = userClient.userInfo(tenantId, account, DigestUtil.encrypt(password));
-            } else if (userType.equals(BladeUserEnum.APP.getName())) {
+            } else if (userType.equals(UserEnum.APP.getName())) {
                 result = userClient.userInfo(tenantId, account, DigestUtil.encrypt(password));
             } else {
                 result = userClient.userInfo(tenantId, account, DigestUtil.encrypt(password));

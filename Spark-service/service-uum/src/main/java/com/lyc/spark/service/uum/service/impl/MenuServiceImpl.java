@@ -4,7 +4,7 @@ package com.lyc.spark.service.uum.service.impl;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.node.ForestNodeMerger;
 import com.lyc.spark.core.support.Kv;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 /**
  * 服务实现类
  *
- * @author Chill
+ * 
  */
 @Service
 @AllArgsConstructor
@@ -77,7 +77,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<MenuVO> grantTree(BladeUser user) {
+	public List<MenuVO> grantTree(TokenUser user) {
 		return ForestNodeMerger.merge(user.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID) ? baseMapper.grantTree() : baseMapper.grantTreeByRole(Func.toLongList(user.getRoleId())));
 	}
 
@@ -88,7 +88,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements IM
 	}
 
 	@Override
-	public List<Kv> authRoutes(BladeUser user) {
+	public List<Kv> authRoutes(TokenUser user) {
 		if (Func.isEmpty(user)) {
 			return null;
 		}

@@ -16,7 +16,7 @@ import java.util.Objects;
 /**
  * 包装类,返回视图层所需的字段
  *
- * @author Chill
+ * 
  */
 public class RegionWrapper extends BaseEntityWrapper<Region, RegionVO> {
 

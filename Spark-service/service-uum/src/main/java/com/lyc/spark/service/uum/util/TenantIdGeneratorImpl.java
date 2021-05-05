@@ -5,8 +5,8 @@ import com.lyc.spark.core.tool.StringUtil;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BladeTenantId implements TenantId {
-    public BladeTenantId() {
+public class TenantIdGeneratorImpl implements TenantIdGenerator {
+    public TenantIdGeneratorImpl() {
     }
 
     public String generate() {

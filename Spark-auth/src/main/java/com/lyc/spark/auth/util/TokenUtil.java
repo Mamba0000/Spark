@@ -1,6 +1,5 @@
 
 package com.lyc.spark.auth.util;
-
 import com.lyc.spark.core.auth.info.AuthInfo;
 import com.lyc.spark.core.auth.info.TokenInfo;
 import com.lyc.spark.core.auth.util.SecureUtil;

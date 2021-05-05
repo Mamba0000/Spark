@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 /**
  * User Feign接口类
  *
- * @author Chill
  */
 @FeignClient(
         value = ApplicationConstant.APPLICATION_SPARK_SERVICE_UUM,

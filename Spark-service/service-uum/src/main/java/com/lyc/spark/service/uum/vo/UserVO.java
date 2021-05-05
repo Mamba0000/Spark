@@ -35,5 +35,10 @@ public class UserVO extends User {
      */
     private String sexName;
 
+    /**
+     * 用户状态
+     */
+    private String statusName;
+
 
 }

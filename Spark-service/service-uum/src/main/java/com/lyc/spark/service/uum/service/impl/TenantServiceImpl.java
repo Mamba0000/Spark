@@ -1,9 +1,7 @@
-
 package com.lyc.spark.service.uum.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.common.exception.ServiceException;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.mybatisplus.base.BaseServiceImpl;
@@ -17,13 +15,11 @@ import com.lyc.spark.service.uum.mapper.TenantMapper;
 import com.lyc.spark.service.uum.service.IPostService;
 import com.lyc.spark.service.uum.service.ITenantService;
 import com.lyc.spark.service.uum.service.IUserService;
-import com.lyc.spark.service.uum.util.TenantId;
-import lombok.AllArgsConstructor;
+import com.lyc.spark.service.uum.util.TenantIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,22 +27,19 @@ import java.util.stream.Collectors;
 /**
  * 服务实现类
  *
- * @author Chill
+ * 
  */
 @Service
 public class TenantServiceImpl extends BaseServiceImpl<TenantMapper, Tenant> implements ITenantService {
-
 	@Autowired
-	public  TenantId tenantId;
+	public TenantIdGenerator tenantIdGenerator;
 	@Autowired
 	public  RoleMapper roleMapper;
-
 	@Autowired
 	public RoleUserMapper roleUserMapper;
 
 	@Autowired
 	public  DeptMapper deptMapper;
-
 
 	@Autowired
 	public  IPostService postService;
@@ -101,7 +94,7 @@ public class TenantServiceImpl extends BaseServiceImpl<TenantMapper, Tenant> imp
 			// 新建租户对应的默认管理用户
 			User user = new User();
 			user.setTenantId(tenantId);
-			user.setName("admin");
+			user.setNickname("admin");
 			user.setRealName("admin");
 			user.setAccount("admin");
 			user.setPassword(DigestUtil.encrypt("admin"));
@@ -121,18 +114,16 @@ public class TenantServiceImpl extends BaseServiceImpl<TenantMapper, Tenant> imp
 			if(rest <= 0) {
 				throw new ServiceException("注册失败");
 			}
-
 			return temp;
 		}
 		return super.saveOrUpdate(tenant);
 	}
 
 	private String getTenantId(List<String> codes) {
-		String code = tenantId.generate();
+		String code = tenantIdGenerator.generate();
 		if (codes.contains(code)) {
 			return getTenantId(codes);
 		}
 		return code;
 	}
-
 }

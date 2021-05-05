@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author Chill
+ * 
  */
 public interface IRoleService extends IService<Role> {
 

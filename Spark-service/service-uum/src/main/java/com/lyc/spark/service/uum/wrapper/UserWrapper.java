@@ -41,9 +41,15 @@ public class UserWrapper extends BaseEntityWrapper<User, UserVO> {
 		List<String> deptName = userService.getDeptName(user.getDeptId());
 		userVO.setRoleName(Func.join(roleName));
 		userVO.setDeptName(Func.join(deptName));
+
 		CommonResult<String> dict = dictClient.getValue("sex", Func.toInt(user.getSex()));
 		if (dict.isSuccess()) {
 			userVO.setSexName(dict.getData());
+		}
+
+		CommonResult<String> dictStatus = dictClient.getValue("status", Func.toInt(user.getStatus()));
+		if (dict.isSuccess()) {
+			userVO.setStatusName(dictStatus.getData());
 		}
 		return userVO;
 	}

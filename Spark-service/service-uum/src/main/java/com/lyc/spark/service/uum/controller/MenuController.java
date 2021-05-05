@@ -2,7 +2,8 @@
 package com.lyc.spark.service.uum.controller;
 
 import com.lyc.spark.core.auth.annotation.PreAuth;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.SecureUtil;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.mybatisplus.support.Condition;
 import com.lyc.spark.core.support.Kv;
@@ -24,7 +25,7 @@ import java.util.Map;
 /**
  * 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
@@ -83,8 +84,9 @@ public class MenuController  {
 	 */
 	@GetMapping("/routes")
 	@ApiOperation(value = "前端菜单数据", notes = "前端菜单数据")
-	public CommonResult<List<MenuVO>> routes(BladeUser user) {
-		List<MenuVO> list = menuService.routes((user == null || user.getUserId() == 0L) ? null : user.getRoleId());
+	public CommonResult<List<MenuVO>> routes() {
+		TokenUser tokenUser = SecureUtil.getUser();
+		List<MenuVO> list = menuService.routes((tokenUser == null || tokenUser.getUserId() == 0L) ? null : tokenUser.getRoleId());
 		return CommonResult.data(list);
 	}
 
@@ -93,8 +95,10 @@ public class MenuController  {
 	 */
 	@GetMapping("/buttons")
 	@ApiOperation(value = "前端按钮数据", notes = "前端按钮数据")
-	public CommonResult<List<MenuVO>> buttons(BladeUser user) {
-		List<MenuVO> list = menuService.buttons(user.getRoleId());
+	public CommonResult<List<MenuVO>> buttons() {
+		TokenUser tokenUser = SecureUtil.getUser();
+
+		List<MenuVO> list = menuService.buttons(tokenUser.getRoleId());
 		return CommonResult.data(list);
 	}
 
@@ -113,8 +117,10 @@ public class MenuController  {
 	 */
 	@GetMapping("/grant-tree")
 	@ApiOperation(value = "权限分配树形结构", notes = "权限分配树形结构")
-	public CommonResult<List<MenuVO>> grantTree(BladeUser user) {
-		return CommonResult.data(menuService.grantTree(user));
+	public CommonResult<List<MenuVO>> grantTree() {
+		TokenUser tokenUser = SecureUtil.getUser();
+
+		return CommonResult.data(menuService.grantTree(tokenUser));
 	}
 
 	/**
@@ -131,11 +137,13 @@ public class MenuController  {
 	 */
 	@GetMapping("auth-routes")
 	@ApiOperation(value = "菜单的角色权限")
-	public CommonResult<List<Kv>> authRoutes(BladeUser user) {
-		if (Func.isEmpty(user) || user.getUserId() == 0L) {
+	public CommonResult<List<Kv>> authRoutes() {
+		TokenUser tokenUser = SecureUtil.getUser();
+
+		if (Func.isEmpty(tokenUser) || tokenUser.getUserId() == 0L) {
 			return null;
 		}
-		return CommonResult.data(menuService.authRoutes(user));
+		return CommonResult.data(menuService.authRoutes(tokenUser));
 	}
 
 }

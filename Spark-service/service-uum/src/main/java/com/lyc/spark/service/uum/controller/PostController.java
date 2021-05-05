@@ -2,7 +2,7 @@
 package com.lyc.spark.service.uum.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.auth.util.SecureUtil;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.mybatisplus.support.Condition;
@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 岗位表 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
@@ -107,8 +107,9 @@ public class PostController {
 	 */
 	@GetMapping("/select")
 	@ApiOperation(value = "下拉数据源", notes = "传入post")
-	public CommonResult<List<Post>> select(String tenantId, BladeUser bladeUser) {
-		List<Post> list = postService.list(Wrappers.<Post>query().lambda().eq(Post::getTenantId, Func.toStr(tenantId, bladeUser.getTenantId())));
+	public CommonResult<List<Post>> select(String tenantId) {
+		TokenUser tokenUser = SecureUtil.getUser();
+		List<Post> list = postService.list(Wrappers.<Post>query().lambda().eq(Post::getTenantId, Func.toStr(tenantId, tokenUser.getTenantId())));
 		return CommonResult.data(list);
 	}
 

@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 /**
  * 岗位表视图实体类
  *
- * @author Chill
+ * 
  */
 @Data
 @EqualsAndHashCode(callSuper = true)

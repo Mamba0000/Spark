@@ -68,7 +68,7 @@ public class AuthClientController  {
 	/**
 	* 新增或修改
 	*/
-	@PostMapping("/submit")
+	@PostMapping("/saveOrUpdate")
 	@ApiOperation(value = "新增或修改", notes = "传入client")
 	public CommonResult submit(@Valid @RequestBody AuthClient authClient) {
 		return CommonResult.status(clientService.saveOrUpdate(authClient));
@@ -78,7 +78,7 @@ public class AuthClientController  {
 	/**
 	* 删除
 	*/
-	@PostMapping("/remove")
+	@PostMapping("/deleteLogic")
 	@ApiOperation(value = "逻辑删除", notes = "传入ids")
 	public CommonResult remove(@ApiParam(value = "主键集合", required = true) @RequestParam String ids) {
 		return CommonResult.status(clientService.deleteLogic(Func.toLongList(ids)));

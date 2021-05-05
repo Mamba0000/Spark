@@ -11,7 +11,7 @@ import java.util.Base64;
 /**
  * JwtUtil
  *
- * @author Chill
+ * 
  */
 public class JwtUtil {
 

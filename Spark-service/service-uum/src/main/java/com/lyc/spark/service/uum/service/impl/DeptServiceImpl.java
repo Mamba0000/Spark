@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 /**
  * 服务实现类
  *
- * @author Chill
+ * 
  */
 @Service
 public class DeptServiceImpl extends ServiceImpl<DeptMapper, Dept> implements IDeptService {

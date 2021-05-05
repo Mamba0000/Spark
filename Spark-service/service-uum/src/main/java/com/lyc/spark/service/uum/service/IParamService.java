@@ -10,7 +10,7 @@ import com.lyc.spark.service.uum.vo.ParamVO;
 /**
  * 服务类
  *
- * @author Chill
+ * 
  */
 public interface IParamService extends BaseService<Param> {
 

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 岗位表 服务类
  *
- * @author Chill
+ * 
  */
 public interface IPostService extends BaseService<Post> {
 

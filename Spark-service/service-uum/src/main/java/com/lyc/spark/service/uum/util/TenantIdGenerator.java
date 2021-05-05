@@ -1,5 +1,5 @@
 package com.lyc.spark.service.uum.util;
 
-public interface TenantId {
+public interface TenantIdGenerator {
     String generate();
 }

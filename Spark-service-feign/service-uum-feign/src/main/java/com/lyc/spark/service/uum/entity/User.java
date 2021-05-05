@@ -1,18 +1,4 @@
-/**
- * Copyright (c) 2018-2028, Chill Zhuang 庄骞 (smallchill@163.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package com.lyc.spark.service.uum.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -24,19 +10,23 @@ import com.lyc.spark.core.mybatisplus.entity.TenantEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
  * 实体类
  *
- * @author Chill
+ * 
  */
 @Data
 @TableName("spark_user")
 @EqualsAndHashCode(callSuper = true)
 public class User extends TenantEntity {
-
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * 主键id
 	 */
@@ -52,15 +42,18 @@ public class User extends TenantEntity {
 	/**
 	 * 账号
 	 */
+	@NotBlank(message = "账号不能为空")
 	private String account;
 	/**
 	 * 密码
 	 */
+	@NotBlank(message = "密码不能为空")
 	private String password;
 	/**
 	 * 昵称
 	 */
-	private String name;
+	private String nickname;
+
 	/**
 	 * 真名
 	 */
@@ -69,13 +62,18 @@ public class User extends TenantEntity {
 	 * 头像
 	 */
 	private String avatar;
+
 	/**
 	 * 邮箱
 	 */
+	@Email(message = "必须为邮箱格式")
 	private String email;
 	/**
 	 * 手机
 	 */
+	@NotBlank(message = "联系电话不能为空")
+	// 目前正则表达式只验证了是否是数字
+	@Pattern(regexp = "^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$")
 	private String phone;
 	/**
 	 * 生日
@@ -83,16 +81,19 @@ public class User extends TenantEntity {
 	private Date birthday;
 	/**
 	 * 性别
+	 *
 	 */
 	private Integer sex;
 
 	/**
 	 * 部门id
 	 */
+	@NotBlank(message = "部门不能为空")
 	private String deptId;
 	/**
-	 * 部门id
+	 * 岗位id
 	 */
+	@NotBlank(message = "岗位不能为空")
 	private String postId;
 
 }

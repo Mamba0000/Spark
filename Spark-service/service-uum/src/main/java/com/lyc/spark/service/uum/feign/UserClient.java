@@ -14,7 +14,7 @@ import springfox.documentation.annotations.ApiIgnore;
 /**
  * 用户服务Feign实现类
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor

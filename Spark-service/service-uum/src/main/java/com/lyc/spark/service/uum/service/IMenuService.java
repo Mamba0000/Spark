@@ -3,7 +3,7 @@ package com.lyc.spark.service.uum.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.support.Kv;
 import com.lyc.spark.service.uum.entity.Menu;
 import com.lyc.spark.service.uum.vo.MenuVO;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 服务类
  *
- * @author Chill
+ * 
  */
 public interface IMenuService extends IService<Menu> {
 
@@ -56,7 +56,7 @@ public interface IMenuService extends IService<Menu> {
 	 * @param user
 	 * @return
 	 */
-	List<MenuVO> grantTree(BladeUser user);
+	List<MenuVO> grantTree(TokenUser user);
 
 	/**
 	 * 默认选中节点
@@ -72,6 +72,6 @@ public interface IMenuService extends IService<Menu> {
 	 * @param user
 	 * @return
 	 */
-	List<Kv> authRoutes(BladeUser user);
+	List<Kv> authRoutes(TokenUser user);
 
 }

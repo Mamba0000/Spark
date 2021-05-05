@@ -1,6 +1,5 @@
 package com.lyc.spark.service.uum.feign;
 
-
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.service.uum.entity.User;
 import com.lyc.spark.service.uum.entity.UserInfo;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 /**
  * Feign失败配置
  *
- * @author Chill
  */
 @Component
 public class UserFeignClientFallback implements UserFeignClient {

@@ -1,7 +1,8 @@
-
 package com.lyc.spark.service.uum.controller;
+
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.SecureUtil;
+import com.lyc.spark.core.auth.util.TokenUser;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.mybatisplus.support.Condition;
@@ -23,7 +24,7 @@ import java.util.Map;
 /**
  * 控制器
  *
- * @author Chill
+ * 
  */
 @RestController
 @AllArgsConstructor
@@ -52,9 +53,11 @@ public class RoleController  {
 		@ApiImplicitParam(name = "roleAlias", value = "角色别名", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "列表", notes = "传入role")
-	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> role, BladeUser bladeUser) {
+	public CommonResult<List<INode>> list(@ApiIgnore @RequestParam Map<String, Object> role) {
+		int a  = 10 ;
+		TokenUser tokenUser = SecureUtil.getUser();
 		QueryWrapper<Role> queryWrapper = Condition.getQueryWrapper(role, Role.class);
-		List<Role> list = roleService.list((!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Role::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		List<Role> list = roleService.list((!tokenUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(Role::getTenantId, tokenUser.getTenantId()) : queryWrapper);
 		return CommonResult.data(RoleWrapper.build().listNodeVO(list));
 	}
 
@@ -63,8 +66,10 @@ public class RoleController  {
 	 */
 	@GetMapping("/tree")
 	@ApiOperation(value = "树形结构", notes = "树形结构")
-	public CommonResult<List<RoleVO>> tree(String tenantId, BladeUser bladeUser) {
-		List<RoleVO> tree = roleService.tree(Func.toStr(tenantId, bladeUser.getTenantId()));
+	public CommonResult<List<RoleVO>> tree(String tenantId) {
+		TokenUser tokenUser = SecureUtil.getUser();
+
+		List<RoleVO> tree = roleService.tree(Func.toStr(tenantId, tokenUser.getTenantId()));
 		return CommonResult.data(tree);
 	}
 
@@ -73,13 +78,13 @@ public class RoleController  {
 	 */
 	@PostMapping("/submit")
 	@ApiOperation(value = "新增或修改", notes = "传入role")
-	public CommonResult submit(@Valid @RequestBody Role role, BladeUser user) {
+	public CommonResult submit(@Valid @RequestBody Role role) {
+		TokenUser tokenUser = SecureUtil.getUser();
 		if (Func.isEmpty(role.getId())) {
-			role.setTenantId(user.getTenantId());
+			role.setTenantId(tokenUser.getTenantId());
 		}
 		return CommonResult.status(roleService.saveOrUpdate(role));
 	}
-
 
 	/**
 	 * 删除

@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -164,7 +163,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
 //		if (userOauth == null || userOauth.getId() == null) {
 //			throw new ApiException("第三方登陆信息错误!");
 //		}
-        user.setRealName(user.getName());
+        user.setRealName(user.getNickname());
 //		user.setAvatar(userOauth.getAvatar());
 //        user.setRoleId(MINUS_ONE);
         user.setDeptId(MINUS_ONE);

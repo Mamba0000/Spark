@@ -11,18 +11,18 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 
-/**
- * 实体类
- *
- * @author Chill
- */
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
+
 @Data
 @TableName("spark_tenant")
 @EqualsAndHashCode(callSuper = true)
 @ApiModel(value = "Tenant对象", description = "Tenant对象")
 public class Tenant extends BaseEntity {
-
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -42,6 +42,8 @@ public class Tenant extends BaseEntity {
 	 * 租户名称
 	 */
 	@ApiModelProperty(value = "租户名称")
+	@NotBlank(message="用户名不能为空")
+	@Length(min = 1,max = 10,message = "长度必须在1-10之间")
 	private String tenantName;
 	/**
 	 * 域名地址
@@ -52,17 +54,20 @@ public class Tenant extends BaseEntity {
 	 * 联系人
 	 */
 	@ApiModelProperty(value = "联系人")
+	@NotBlank(message="联系人不能为空")
 	private String linkman;
 	/**
 	 * 联系电话
 	 */
 	@ApiModelProperty(value = "联系电话")
+	@NotBlank(message="联系电话不能为空")
+	@Pattern(regexp = "^[-+]?(([0-9]+)([.]([0-9]+))?|([.]([0-9]+))?)$")
 	private String contactNumber;
 	/**
 	 * 联系地址
 	 */
 	@ApiModelProperty(value = "联系地址")
+	@NotBlank(message="联系地址不能为空")
 	private String address;
-
 
 }

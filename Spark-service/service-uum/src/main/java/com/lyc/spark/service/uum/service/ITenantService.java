@@ -9,7 +9,7 @@ import com.lyc.spark.service.uum.entity.Tenant;
 /**
  * 服务类
  *
- * @author Chill
+ * 
  */
 public interface ITenantService extends BaseService<Tenant> {
 

@@ -3,7 +3,8 @@ package com.lyc.spark.service.uum.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lyc.spark.core.auth.util.BladeUser;
+import com.lyc.spark.core.auth.util.TokenUser;
+import com.lyc.spark.core.auth.util.SecureUtil;
 import com.lyc.spark.core.common.api.CommonResult;
 import com.lyc.spark.core.constant.BladeConstant;
 import com.lyc.spark.core.mybatisplus.support.Condition;
@@ -37,7 +38,6 @@ import java.util.Map;
 /**
  * 控制器
  *
- * @author Chill
  */
 @RestController
 @AllArgsConstructor
@@ -52,24 +52,12 @@ public class UserController {
 	@ApiOperation(value = "查看详情", notes = "传入id")
 	@GetMapping("/detail")
 	public CommonResult<UserVO> detail(User user) {
-		User detail = userService.getOne(Condition.getQueryWrapper(user));
-		System.out.println(userService.getPermissions(detail));
-		System.out.println(userService.getRoles(user));
+		User detail = userService.getById(user.getId());
 		return CommonResult.data(UserWrapper.build().entityVO(detail));
 	}
 
 	/**
-	 * 查询单条
-	 */
-	@ApiOperation(value = "查看详情", notes = "传入id")
-	@GetMapping("/info")
-	public CommonResult<UserVO> info(BladeUser user) {
-		User detail = userService.getById(user.getUserId());
-		return CommonResult.data(UserWrapper.build().entityVO(detail));
-	}
-
-	/**
-	 * 用户列表
+	 * 用户列表 OK
 	 */
 	@GetMapping("/list")
 	@ApiImplicitParams({
@@ -77,20 +65,19 @@ public class UserController {
 		@ApiImplicitParam(name = "realName", value = "姓名", paramType = "query", dataType = "string")
 	})
 	@ApiOperation(value = "列表", notes = "传入account和realName")
-	public CommonResult<IPage<UserVO>> list(@ApiIgnore @RequestParam Map<String, Object> user, Query query, BladeUser bladeUser) {
+	public CommonResult<IPage<UserVO>> list(@ApiIgnore @RequestParam Map<String, Object> user, Query query) {
 		QueryWrapper<User> queryWrapper = Condition.getQueryWrapper(user, User.class);
-		IPage<User> pages = userService.page(Condition.getPage(query), (!bladeUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(User::getTenantId, bladeUser.getTenantId()) : queryWrapper);
+		TokenUser tokenUser =  SecureUtil.getUser();
+		IPage<User> pages = userService.page(Condition.getPage(query), (!tokenUser.getTenantId().equals(BladeConstant.ADMIN_TENANT_ID)) ? queryWrapper.lambda().eq(User::getTenantId, tokenUser.getTenantId()) : queryWrapper);
 		return CommonResult.data(UserWrapper.build().pageVO(pages));
 	}
 
-
-
 	/**
-	 * 新增或修改
+	 * 新增或修改 OK
 	 */
 	@PostMapping("/addOrUpdate")
 	@ApiOperation(value = "新增或修改", notes = "传入User")
-	public CommonResult submit(@Valid @RequestBody User user) {
+	public CommonResult addOrUpdate(@Valid @RequestBody User user) {
 		return CommonResult.status(userService.submit(user));
 	}
 
@@ -106,9 +93,9 @@ public class UserController {
 	/**
 	 * 删除
 	 */
-	@PostMapping("/remove")
-	@ApiOperation(value = "删除", notes = "传入地基和")
-	public CommonResult remove(@RequestParam String ids) {
+	@PostMapping("/deleteLogic")
+	@ApiOperation(value = "删除", notes = "传入ids")
+	public CommonResult deleteLogic(@RequestParam String ids) {
 		return CommonResult.status(userService.deleteLogic(Func.toLongList(ids)));
 	}
 
@@ -128,7 +115,8 @@ public class UserController {
 		return CommonResult.status(temp);
 	}
 
-	@PostMapping("/reset-password")
+
+	@PostMapping("/resetPassword")
 	@ApiOperation(value = "初始化密码", notes = "传入userId集合")
 	public CommonResult resetPassword(@ApiParam(value = "userId集合", required = true) @RequestParam String userIds) {
 		boolean temp = userService.resetPassword(userIds);
@@ -143,26 +131,13 @@ public class UserController {
 	 * @param newPassword1
 	 * @return
 	 */
-	@PostMapping("/update-password")
+	@PostMapping("/updatePassword")
 	@ApiOperation(value = "修改密码", notes = "传入密码")
-	public CommonResult updatePassword(BladeUser user, @ApiParam(value = "旧密码", required = true) @RequestParam String oldPassword,
+	public CommonResult updatePassword(TokenUser user, @ApiParam(value = "旧密码", required = true) @RequestParam String oldPassword,
 									   @ApiParam(value = "新密码", required = true) @RequestParam String newPassword,
 									   @ApiParam(value = "新密码", required = true) @RequestParam String newPassword1) {
 		boolean temp = userService.updatePassword(user.getUserId(), oldPassword, newPassword, newPassword1);
 		return CommonResult.status(temp);
-	}
-
-	/**
-	 * 用户列表
-	 *
-	 * @param user
-	 * @return
-	 */
-	@GetMapping("/user-list")
-	@ApiOperation(value = "用户列表", notes = "传入user")
-	public CommonResult<List<User>> userList(User user) {
-		List<User> list = userService.list(Condition.getQueryWrapper(user));
-		return CommonResult.data(list);
 	}
 
 }
