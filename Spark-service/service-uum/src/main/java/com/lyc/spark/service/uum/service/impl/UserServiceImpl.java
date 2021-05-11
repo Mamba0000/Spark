@@ -79,7 +79,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
         User user = baseMapper.getUser(tenantId, account, password);
         userInfo.setUser(user);
         if (Func.isNotEmpty(user)) {
-//		   List<UserRole> userRoles =	userRoleRelationService.list(Wrappers.<UserRole>query().lambda().eq(UserRole::getUserId, user.getId()));;
 
             userInfo.setRoles(getRoles(user)
                     .stream()
@@ -93,10 +92,6 @@ public class UserServiceImpl extends BaseServiceImpl<UserMapper, User> implement
                     .collect(Collectors.toList()));
         }
 
-//		if (Func.isNotEmpty(user)) {
-//			List<String> roleAlias = baseMapper.getRoleAlias(Func.toStrArray(user.getRoleId()));
-//			userInfo.setRoles(roleAlias);
-//		}
         return userInfo;
     }
 

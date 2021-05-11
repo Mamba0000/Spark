@@ -1,6 +1,5 @@
 
 package com.lyc.spark.service.uum.service;
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lyc.spark.core.mybatisplus.base.BaseService;
@@ -8,7 +7,6 @@ import com.lyc.spark.service.uum.entity.Permission;
 import com.lyc.spark.service.uum.entity.Role;
 import com.lyc.spark.service.uum.entity.User;
 import com.lyc.spark.service.uum.entity.UserInfo;
-
 import java.util.List;
 
 /**
@@ -52,13 +50,6 @@ public interface IUserService extends BaseService<User> {
 	 */
 	UserInfo userInfo(String tenantId, String account, String password);
 
-	/**
-	 * 用户信息
-	 *
-	 * @param userOauth
-	 * @return
-	 */
-//	UserInfo userInfo(UserOauth userOauth);
 
 	/**
 	 * 给用户设置角色
@@ -118,23 +109,6 @@ public interface IUserService extends BaseService<User> {
 	 * @return
 	 */
 	List<Permission> getPermissions(User user);
-
-
-	/**
-	 * 导入用户数据
-	 *
-	 * @param data
-	 * @return
-	 */
-//	void importUser(List<UserExcel> data);
-
-	/**
-	 * 获取导出用户数据
-	 *
-	 * @param queryWrapper
-	 * @return
-	 */
-//	List<UserExcel> exportUser(Wrapper<User> queryWrapper);
 
 	/**
 	 * 注册用户

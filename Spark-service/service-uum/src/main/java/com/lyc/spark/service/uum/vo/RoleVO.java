@@ -1,6 +1,7 @@
 
 package com.lyc.spark.service.uum.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
@@ -11,6 +12,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,7 @@ public class RoleVO extends Role implements INode {
 	private List<INode> children;
 
 	@Override
+	@JsonIgnore // 忽略该字段
 	public List<INode> getChildren() {
 		if (this.children == null) {
 			this.children = new ArrayList<>();

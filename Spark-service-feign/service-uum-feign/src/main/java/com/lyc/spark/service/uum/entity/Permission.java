@@ -42,4 +42,7 @@ public class Permission extends TenantEntity implements Serializable {
     @ApiModelProperty(value = "权限分类ID")
     private Long categoryId;
 
+    @ApiModelProperty(value = "父节点")
+    private Long parentId;
+
 }

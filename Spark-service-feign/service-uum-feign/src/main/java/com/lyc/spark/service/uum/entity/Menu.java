@@ -91,10 +91,31 @@ public class Menu implements Serializable {
 	private Integer isOpen;
 
 	/**
+	 * 图标
+	 */
+	@ApiModelProperty(value = "图标")
+	private String icon;
+
+	/**
+	 * 是否隐藏
+	 */
+	@ApiModelProperty(value = "是否隐藏")
+	private Integer hidden;
+
+
+	/**
+	 * 状态
+	 */
+	@ApiModelProperty(value = "状态")
+	private Integer status;
+
+
+	/**
 	 * 备注
 	 */
 	@ApiModelProperty(value = "备注")
 	private String remark;
+
 
 	/**
 	 * 是否已删除

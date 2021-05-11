@@ -19,12 +19,30 @@
         <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
-    <resultMap id="treeNodeResultMap" type="com.lyc.spark.core.node.TreeNode">
+    <resultMap id="treeNodeResultMap" type="com.lyc.spark.service.uum.vo.MenuVO">
         <id column="id" property="id"/>
+<!--        <result column="parent_id" property="parentId"/>-->
+<!--        <result column="title" property="title"/>-->
+<!--        <result column="value" property="value"/>-->
+<!--        <result column="key" property="key"/>-->
+
+        <result column="code" property="code"/>
         <result column="parent_id" property="parentId"/>
-        <result column="title" property="title"/>
-        <result column="value" property="value"/>
-        <result column="key" property="key"/>
+        <result column="name" property="name"/>
+        <result column="alias" property="alias"/>
+        <result column="path" property="path"/>
+        <result column="source" property="source"/>
+        <result column="sort" property="sort"/>
+        <result column="category" property="category"/>
+        <result column="action" property="action"/>
+        <result column="is_open" property="isOpen"/>
+        <result column="remark" property="remark"/>
+        <result column="is_deleted" property="isDeleted"/>
+        <result column="remark" property="remark"/>
+        <result column="icon" property="icon"/>
+        <result column="status" property="status"/>
+        <result column="hidden" property="hidden"/>
+
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -38,7 +56,7 @@
     </select>
 
     <select id="tree" resultMap="treeNodeResultMap">
-        select id, parent_id, name as title, id as 'value', id as 'key' from spark_menu where is_deleted = 0 and category = 1
+        select id, parent_id, id as 'key', code, icon, status, hidden, name, alias, path, source,sort,category, action,remark,is_deleted , is_open from spark_menu where is_deleted = 0 and category != 3
     </select>
 
     <select id="allMenu" resultMap="menuResultMap">

@@ -82,7 +82,7 @@ public class UserController {
 	}
 
 	/**
-	 * 修改
+	 * 修改 OK
 	 */
 	@PostMapping("/update")
 	@ApiOperation(value = "修改", notes = "传入User")
@@ -91,7 +91,7 @@ public class UserController {
 	}
 
 	/**
-	 * 删除
+	 * 删除 OK
 	 */
 	@PostMapping("/deleteLogic")
 	@ApiOperation(value = "删除", notes = "传入ids")
@@ -139,5 +139,6 @@ public class UserController {
 		boolean temp = userService.updatePassword(user.getUserId(), oldPassword, newPassword, newPassword1);
 		return CommonResult.status(temp);
 	}
+
 
 }

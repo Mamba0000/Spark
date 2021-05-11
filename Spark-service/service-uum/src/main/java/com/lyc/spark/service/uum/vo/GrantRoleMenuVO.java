@@ -13,7 +13,7 @@ import java.util.List;
  * 
  */
 @Data
-public class GrantRoleMenu implements Serializable {
+public class GrantRoleMenuVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "roleIds集合")

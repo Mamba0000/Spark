@@ -72,5 +72,4 @@ public class ParamController  {
 		return CommonResult.status(paramService.deleteLogic(Func.toLongList(ids)));
 	}
 
-
 }

@@ -42,12 +42,22 @@ public class MenuVO extends Menu implements INode {
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<INode> children;
 
+	/**
+	 * 是否选中
+	 */
+	private boolean isCheck;
+
 	@Override
 	public List<INode> getChildren() {
 		if (this.children == null) {
 			this.children = new ArrayList<>();
 		}
 		return this.children;
+	}
+
+	@Override
+	public Boolean getHasChildren() {
+		return !this.children.isEmpty();
 	}
 
 	/**
@@ -69,4 +79,9 @@ public class MenuVO extends Menu implements INode {
 	 * 是否新窗口打开
 	 */
 	private String isOpenName;
+
+
+	public static int compare(MenuVO o1, MenuVO o2) {
+		return o1.getSort() - o2.getSort();
+	}
 }

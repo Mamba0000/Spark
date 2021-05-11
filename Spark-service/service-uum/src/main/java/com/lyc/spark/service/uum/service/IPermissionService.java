@@ -1,30 +1,41 @@
 package com.lyc.spark.service.uum.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.lyc.spark.service.uum.entity.Permission;
+import com.lyc.spark.service.uum.entity.*;
+import java.util.List;
 
 /**
  * 权限管理Service
  */
 public interface IPermissionService extends IService<Permission> {
-    /**
-     * 添加权限
-     */
-    boolean create(Permission permission);
 
     /**
-     * 修改权限
+     *  增加或是修改
+     * @param permission
+     * @return
      */
-    boolean update(Long id, Permission permission);
+    public boolean submit(Permission permission) ;
 
     /**
-     * 删除权限
+     * 通过角色权限中间表获取关联权限
+     * @param rolePermissions
+     * @return
      */
-    boolean delete(Long id);
+    public List<Permission> list(List<RolePermission> rolePermissions);
 
     /**
-     * 分页查询权限
+     * 通过角色获取关联权限
+     * @param roles
+     * @return
      */
-    Page<Permission> list(Long categoryId, String nameKeyword, String urlKeyword, Integer pageSize, Integer pageNum);
+    public List<Permission> listPermissionByRoles(List<Role> roles);
+
+    /**
+     * 通过角色i获取关联权限
+     * @param roleIds
+     * @return
+     */
+    public List<Permission> listPermissionByRoleIds(List<Long> roleIds) ;
+
 }

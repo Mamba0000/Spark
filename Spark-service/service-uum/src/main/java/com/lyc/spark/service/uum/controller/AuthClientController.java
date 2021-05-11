@@ -24,7 +24,6 @@ import javax.validation.Valid;
 @RequestMapping("/client")
 @Api(value = "应用管理", tags = "应用管理")
 public class AuthClientController  {
-
 	private IAuthClientService clientService;
 
 	/**
@@ -73,7 +72,6 @@ public class AuthClientController  {
 	public CommonResult submit(@Valid @RequestBody AuthClient authClient) {
 		return CommonResult.status(clientService.saveOrUpdate(authClient));
 	}
-
 
 	/**
 	* 删除

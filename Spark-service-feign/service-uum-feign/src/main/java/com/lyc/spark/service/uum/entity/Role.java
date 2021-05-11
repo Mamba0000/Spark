@@ -45,6 +45,8 @@ public class Role implements Serializable {
 	@JsonSerialize(using = ToStringSerializer.class)
 	private Long parentId;
 
+
+
 	/**
 	 * 角色名
 	 */
