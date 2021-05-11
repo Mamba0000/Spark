@@ -1,25 +1,23 @@
-
 package com.lyc.spark.service.uum.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
 import java.io.Serializable;
 import java.util.List;
 
 /**
- * GrantVO
  *
- * 
+ * GrantRolePermission 角色配置权限
+ *
  */
 @Data
-public class GrantVO implements Serializable {
+public class GrantRolePermission implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "roleIds集合")
 	private List<Long> roleIds;
 
-	@ApiModelProperty(value = "menuIds集合")
-	private List<Long> menuIds;
+	@ApiModelProperty(value = "permissionIds集合")
+	private List<Long> permissionIds;
 
 }
